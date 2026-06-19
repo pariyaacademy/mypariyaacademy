@@ -24,7 +24,8 @@
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 /* ============================================================
@@ -671,53 +672,337 @@ body {
 }
 
 /* ============================================================
-   STUDENT DASHBOARD
+   STUDENT DASHBOARD — NEW PROFESSIONAL DESIGN
    ============================================================ */
-.student-dash { display:flex; flex-direction:column; min-height:100vh; background:radial-gradient(ellipse at 50% 0%,rgba(34,197,94,0.1) 0%,transparent 60%), var(--dash-bg); }
-.student-nav {
-  background:var(--dash-surface); border-bottom:1px solid var(--dash-border);
-  padding:0 16px; display:flex; align-items:center; justify-content:space-between;
-  height:56px; position:sticky; top:0; z-index:100; flex-shrink:0;
-}
-.student-nav span { font-size:13px; font-weight:800; color:var(--dash-accent); }
-.student-welcome { padding:26px 16px 16px; text-align:center; }
-.student-welcome h2 { font-family:var(--font-display); font-size:22px; color:var(--dash-accent); margin-bottom:4px; }
-.student-welcome p { font-size:13px; color:var(--dash-muted); font-weight:600; }
-.student-card-area { padding:0 16px; flex:1; }
-.student-report-card { background:#f6fff6; border-radius:var(--radius); padding:16px; }
 
-.btn-action {
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  padding:14px 16px; border-radius:var(--radius-sm); border:none;
-  font-family:var(--font-ui); font-size:14px; font-weight:800;
-  cursor:pointer; transition:var(--transition); width:100%;
-  margin-bottom:16px;
+/* Design tokens for student portal */
+:root {
+  --sd-ink:         #1a1a2e;
+  --sd-ink2:        #3d3d5c;
+  --sd-ink3:        #7b7b9d;
+  --sd-ivory:       #faf9f7;
+  --sd-ivory2:      #f3f1ed;
+  --sd-ivory3:      #e8e4de;
+  --sd-indigo:      #4338ca;
+  --sd-indigo-lt:   #eef2ff;
+  --sd-indigo-md:   #c7d2fe;
+  --sd-gold:        #b45309;
+  --sd-gold-lt:     #fef3c7;
+  --sd-rose:        #be185d;
+  --sd-rose-lt:     #fce7f3;
+  --sd-teal:        #0f766e;
+  --sd-teal-lt:     #ccfbf1;
+  --sd-emerald:     #15803d;
+  --sd-emerald-lt:  #dcfce7;
+  --sd-red:         #dc2626;
+  --sd-red-lt:      #fee2e2;
+  --sd-font-serif:  'Instrument Serif', Georgia, serif;
+  --sd-font-sans:   'DM Sans', 'Nunito', system-ui, sans-serif;
+  --sd-r:           12px;
+  --sd-r-sm:        8px;
+  --sd-r-lg:        18px;
+  --sd-shadow-sm:   0 1px 3px rgba(26,26,46,.08), 0 1px 2px rgba(26,26,46,.06);
+  --sd-shadow-md:   0 4px 12px rgba(26,26,46,.08), 0 2px 6px rgba(26,26,46,.05);
 }
-.btn-student-dl {
-  background:linear-gradient(135deg,#3b82f6,#1d4ed8);
-  color:#fff; box-shadow:0 4px 16px rgba(59,130,246,0.3);
-}
-.btn-student-dl:hover { transform:translateY(-1px); }
 
-/* START CUSTOM EDIT SECTION — Term Selection Buttons */
-.term-select-area { padding: 20px 16px; }
-.term-select-area h3 {
-  font-family: var(--font-display);
-  font-size: 16px; color: var(--dash-accent);
-  margin-bottom: 6px; text-align: center;
+/* Full-page student layout */
+.student-dash {
+  display: flex;
+  min-height: 100vh;
+  background: var(--sd-ivory);
+  font-family: var(--sd-font-sans);
+  color: var(--sd-ink);
 }
-.term-select-area p { font-size: 12px; color: var(--dash-muted); font-weight: 600; text-align: center; margin-bottom: 18px; }
-.term-btn-grid { display: flex; flex-direction: column; gap: 12px; }
+
+/* Student Sidebar */
+.sd-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--sd-ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.sd-sb-brand {
+  padding: 26px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.sd-sb-logo-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.sd-sb-logo {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--sd-indigo); display: flex; align-items: center;
+  justify-content: center; font-size: 16px; color: #fff; flex-shrink: 0;
+  overflow: hidden;
+}
+.sd-sb-logo img { width: 100%; height: 100%; object-fit: contain; }
+.sd-sb-school { font-size: 14px; color: #fff; font-family: var(--sd-font-serif); line-height: 1.2; }
+.sd-sb-tagline { font-size: 10px; color: rgba(255,255,255,.3); margin-top: 2px; }
+
+.sd-student-chip {
+  margin: 16px 20px 0;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--sd-r-sm);
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sd-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff; flex-shrink: 0;
+}
+.sd-stu-name { font-size: 13px; color: rgba(255,255,255,.85); font-weight: 500; }
+.sd-stu-class { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+.sd-nav { flex: 1; padding: 16px 12px; }
+.sd-nav-label {
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.25); font-weight: 600;
+  padding: 8px 8px 4px; margin-bottom: 4px;
+}
+.sd-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--sd-r-sm);
+  color: rgba(255,255,255,.5); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .18s ease; margin-bottom: 1px;
+  border: none; background: none; width: 100%; text-align: left;
+  font-family: var(--sd-font-sans);
+}
+.sd-nav-item i { font-size: 14px; flex-shrink: 0; width: 16px; text-align: center; }
+.sd-nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.85); }
+.sd-nav-item.sd-active { background: var(--sd-indigo); color: #fff; box-shadow: 0 2px 8px rgba(67,56,202,.4); }
+
+.sd-bottom {
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.sd-logout-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--sd-r-sm);
+  color: rgba(255,255,255,.4); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .18s ease; border: none; background: none; width: 100%;
+  font-family: var(--sd-font-sans);
+}
+.sd-logout-btn:hover { color: #ef4444; background: rgba(239,68,68,.1); }
+
+/* Student Main Content */
+.sd-main {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column;
+}
+.sd-topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--sd-ivory3);
+  padding: 0 28px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+}
+.sd-topbar-left { display: flex; flex-direction: column; }
+.sd-page-eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--sd-ink3); font-weight: 600; }
+.sd-page-title { font-family: var(--sd-font-serif); font-size: 17px; color: var(--sd-ink); letter-spacing: -.01em; line-height: 1.2; }
+.sd-topbar-right { display: flex; align-items: center; gap: 10px; }
+.sd-icon-btn {
+  width: 36px; height: 36px; border-radius: var(--sd-r-sm);
+  border: 1px solid var(--sd-ivory3); background: var(--sd-ivory);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .18s ease; color: var(--sd-ink2); font-size: 13px;
+}
+.sd-icon-btn:hover { border-color: var(--sd-indigo-md); background: var(--sd-indigo-lt); color: var(--sd-indigo); }
+.sd-topbar-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: #fff;
+  border: 2px solid var(--sd-ivory3); cursor: pointer;
+}
+
+.sd-content { padding: 24px 28px; flex: 1; }
+
+/* Hero Band */
+.sd-hero {
+  background: var(--sd-ink);
+  border-radius: var(--sd-r-lg);
+  padding: 26px 30px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+  position: relative; overflow: hidden;
+}
+.sd-hero::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(99,102,241,.15); pointer-events: none;
+}
+.sd-hero-left { position: relative; z-index: 1; }
+.sd-hero-greeting { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--sd-indigo-md); font-weight: 600; margin-bottom: 5px; }
+.sd-hero-name { font-family: var(--sd-font-serif); font-size: 26px; color: #fff; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 8px; font-style: italic; }
+.sd-hero-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.sd-hero-badge { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(255,255,255,.5); font-weight: 500; }
+.sd-hero-div { color: rgba(255,255,255,.15); }
+.sd-hero-stats { display: flex; gap: 14px; position: relative; z-index: 1; }
+.sd-hero-stat { text-align: center; padding: 12px 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: var(--sd-r); }
+.sd-hero-stat-num { font-size: 22px; font-weight: 600; color: #fff; letter-spacing: -.03em; line-height: 1; }
+.sd-hero-stat-label { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 4px; white-space: nowrap; font-weight: 500; }
+.sd-rank-badge { display: inline-block; background: rgba(234,179,8,.2); color: #fcd34d; border: 1px solid rgba(234,179,8,.3); font-size: 10px; font-weight: 600; border-radius: 999px; padding: 2px 9px; margin-top: 4px; }
+
+/* Metric Cards */
+.sd-metric-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.sd-metric-card { background: #fff; border: 1px solid var(--sd-ivory3); border-radius: var(--sd-r-lg); box-shadow: var(--sd-shadow-sm); padding: 18px; }
+.sd-metric-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+.sd-m-icon { width: 36px; height: 36px; border-radius: var(--sd-r-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.sd-m-badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.sd-m-value { font-size: 28px; font-weight: 600; color: var(--sd-ink); letter-spacing: -.04em; line-height: 1; }
+.sd-m-label { font-size: 12px; color: var(--sd-ink3); font-weight: 500; margin-top: 3px; }
+.sd-m-sub { font-size: 11px; color: var(--sd-ink3); display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+
+/* Alert */
+.sd-alert { background: var(--sd-gold-lt); border: 1px solid #fcd34d; border-radius: var(--sd-r); padding: 11px 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.sd-alert i { color: var(--sd-gold); font-size: 14px; flex-shrink: 0; }
+.sd-alert-text { font-size: 12.5px; color: #78350f; font-weight: 500; line-height: 1.4; }
+
+/* Term Buttons */
+.sd-term-section-head { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--sd-ink3); font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.sd-term-section-head::after { content: ''; flex: 1; height: 1px; background: var(--sd-ivory2); }
+.sd-term-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
 .btn-term {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--dash-border);
-  font-family: var(--font-ui); font-size: 16px; font-weight: 900;
-  cursor: pointer; transition: var(--transition);
-  background: var(--dash-card); color: var(--dash-text);
+  padding: 14px 10px; border-radius: var(--sd-r);
+  border: 1.5px solid var(--sd-ivory3);
+  background: var(--sd-ivory);
+  cursor: pointer; transition: all .18s ease;
+  text-align: center; display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  font-family: var(--sd-font-sans);
 }
-.btn-term:hover { background: var(--dash-green-soft); border-color: var(--dash-green); color: var(--dash-accent); transform: translateY(-2px); }
-.btn-term .term-icon { font-size: 22px; }
-/* END CUSTOM EDIT SECTION — Term Selection Buttons */
+.btn-term i { font-size: 20px; color: var(--sd-ink3); transition: all .18s ease; }
+.sd-term-lbl { font-size: 13px; font-weight: 600; color: var(--sd-ink2); transition: all .18s ease; }
+.sd-term-sub { font-size: 11px; color: var(--sd-ink3); }
+.btn-term:hover { border-color: var(--sd-indigo); background: var(--sd-indigo-lt); }
+.btn-term:hover i, .btn-term:hover .sd-term-lbl { color: var(--sd-indigo); }
+.btn-term.sd-term-active { border-color: var(--sd-indigo); background: var(--sd-indigo); box-shadow: 0 4px 12px rgba(67,56,202,.3); }
+.btn-term.sd-term-active i, .btn-term.sd-term-active .sd-term-lbl { color: #fff; }
+.btn-term.sd-term-active .sd-term-sub { color: rgba(255,255,255,.65); }
+.term-icon { display: none; } /* hide old emoji icon — we use FA now */
+
+/* 2-col layout */
+.sd-main-grid { display: grid; grid-template-columns: 1fr 320px; gap: 18px; margin-bottom: 18px; }
+
+/* Cards */
+.sd-card { background: #fff; border: 1px solid var(--sd-ivory3); border-radius: var(--sd-r-lg); box-shadow: var(--sd-shadow-sm); overflow: hidden; }
+.sd-card-header { padding: 16px 18px 0; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.sd-card-title { font-size: 13px; font-weight: 600; color: var(--sd-ink); display: flex; align-items: center; gap: 7px; }
+.sd-card-title i { color: var(--sd-indigo); font-size: 13px; }
+.sd-card-body { padding: 0 18px 18px; }
+.sd-card-action { font-size: 12px; color: var(--sd-indigo); font-weight: 500; cursor: pointer; border: none; background: none; display: flex; align-items: center; gap: 4px; }
+
+/* Subject Rows */
+.sd-subj-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--sd-ivory2); }
+.sd-subj-row:last-child { border-bottom: none; }
+.sd-subj-icon { width: 30px; height: 30px; border-radius: var(--sd-r-sm); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.sd-subj-name { font-size: 13px; font-weight: 500; color: var(--sd-ink); }
+.sd-subj-teacher { font-size: 11px; color: var(--sd-ink3); margin-top: 1px; }
+.sd-subj-track { flex: 1; }
+.sd-bar-bg { height: 5px; border-radius: 999px; background: var(--sd-ivory2); overflow: hidden; }
+.sd-bar-fill { height: 100%; border-radius: 999px; }
+.sd-subj-score { font-size: 13px; font-weight: 600; color: var(--sd-ink); min-width: 28px; text-align: right; }
+.sd-grade { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; min-width: 26px; text-align: center; margin-left: 5px; }
+
+/* Download Card */
+.sd-dl-card { background: var(--sd-indigo-lt); border: 1.5px solid var(--sd-indigo-md); border-radius: var(--sd-r-lg); padding: 18px; display: flex; align-items: center; gap: 14px; }
+.sd-dl-icon { width: 44px; height: 44px; background: var(--sd-indigo); border-radius: var(--sd-r); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; flex-shrink: 0; }
+.sd-dl-title { font-size: 13px; font-weight: 600; color: var(--sd-ink); margin-bottom: 2px; }
+.sd-dl-desc { font-size: 11px; color: var(--sd-ink3); line-height: 1.5; }
+.sd-dl-btn { padding: 9px 18px; border-radius: var(--sd-r-sm); background: var(--sd-indigo); color: #fff; border: none; font-size: 12px; font-weight: 600; font-family: var(--sd-font-sans); cursor: pointer; transition: all .18s ease; display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center; margin-top: 10px; }
+.sd-dl-btn:hover { background: #3730a3; }
+
+/* Attendance Ring */
+.sd-attend-wrap { display: flex; align-items: center; gap: 20px; }
+.sd-ring-wrap { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
+.sd-ring-wrap svg { transform: rotate(-90deg); }
+.sd-ring-bg { fill: none; stroke: var(--sd-ivory2); stroke-width: 8; }
+.sd-ring-fill { fill: none; stroke: var(--sd-indigo); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 252; }
+.sd-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.sd-ring-pct { font-size: 18px; font-weight: 600; color: var(--sd-ink); }
+.sd-ring-lbl { font-size: 9px; color: var(--sd-ink3); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.sd-attend-stats { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.sd-attend-row { display: flex; justify-content: space-between; }
+.sd-attend-lbl { font-size: 12px; color: var(--sd-ink3); }
+.sd-attend-val { font-size: 13px; font-weight: 600; color: var(--sd-ink); }
+
+/* Fees */
+.sd-fee-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--sd-ivory2); }
+.sd-fee-row:last-child { border-bottom: none; }
+.sd-fee-lbl { font-size: 13px; color: var(--sd-ink2); font-weight: 500; }
+.sd-fee-sub { font-size: 11px; color: var(--sd-ink3); margin-top: 1px; }
+.sd-fee-amt { font-size: 13px; font-weight: 600; color: var(--sd-ink); }
+.sd-fee-bar { margin-top: 14px; }
+.sd-fee-bar-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--sd-ink3); margin-bottom: 5px; }
+.sd-fee-bar-track { height: 7px; border-radius: 999px; background: var(--sd-ivory2); overflow: hidden; }
+.sd-fee-bar-fill { height: 100%; border-radius: 999px; background: var(--sd-emerald); }
+
+/* Color utils */
+.sd-c-indigo { background: var(--sd-indigo-lt); color: var(--sd-indigo); }
+.sd-c-gold   { background: var(--sd-gold-lt);   color: var(--sd-gold); }
+.sd-c-emerald{ background: var(--sd-emerald-lt); color: var(--sd-emerald); }
+.sd-c-rose   { background: var(--sd-rose-lt);   color: var(--sd-rose); }
+.sd-c-teal   { background: var(--sd-teal-lt);   color: var(--sd-teal); }
+.sd-c-red    { background: var(--sd-red-lt);    color: var(--sd-red); }
+.sd-badge-emerald { background: var(--sd-emerald-lt); color: #166534; }
+.sd-badge-indigo  { background: var(--sd-indigo-lt);  color: #3730a3; }
+.sd-badge-gold    { background: var(--sd-gold-lt);    color: #78350f; }
+.sd-badge-teal    { background: var(--sd-teal-lt);    color: #134e4a; }
+.sd-badge-red     { background: var(--sd-red-lt);     color: #991b1b; }
+
+/* 2-col grid bottom */
+.sd-bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+
+/* Timeline events */
+.sd-timeline { display: flex; flex-direction: column; }
+.sd-tl-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--sd-ivory2); }
+.sd-tl-item:last-child { border-bottom: none; }
+.sd-tl-dot-col { display: flex; flex-direction: column; align-items: center; padding-top: 3px; }
+.sd-tl-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.sd-tl-line { width: 1px; flex: 1; background: var(--sd-ivory2); margin: 4px 0; }
+.sd-tl-item:last-child .sd-tl-line { display: none; }
+.sd-tl-event { font-size: 13px; font-weight: 500; color: var(--sd-ink); line-height: 1.3; }
+.sd-tl-tag { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-top: 4px; margin-right: 6px; }
+
+/* Timetable */
+.sd-timetable { width: 100%; border-collapse: collapse; }
+.sd-timetable th { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; font-weight: 600; color: var(--sd-ink3); padding: 7px 8px; text-align: left; border-bottom: 1.5px solid var(--sd-ivory2); }
+.sd-timetable td { padding: 9px 8px; font-size: 12px; border-bottom: 1px solid var(--sd-ivory2); color: var(--sd-ink2); }
+.sd-timetable tr:last-child td { border-bottom: none; }
+.sd-timetable .sd-now td { background: var(--sd-indigo-lt); }
+.sd-subj-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+
+/* Student portal footer */
+.sd-footer { text-align: center; padding: 16px 0 6px; color: var(--sd-ink3); font-size: 11px; border-top: 1px solid var(--sd-ivory2); margin-top: 6px; }
+
+/* Report area wrapper (old: student-report-card) */
+.student-report-card { background: #f6fff6; border-radius: var(--sd-r); padding: 16px; }
+
+/* Report panel action buttons */
+.btn-action {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 16px; border-radius: var(--sd-r-sm); border: none;
+  font-family: var(--sd-font-sans); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .18s ease; width: 100%; margin-bottom: 12px;
+}
+.btn-student-dl { background: linear-gradient(135deg,#4338ca,#3730a3); color: #fff; box-shadow: 0 4px 14px rgba(67,56,202,.3); }
+.btn-student-dl:hover { transform: translateY(-1px); }
+
+/* Term select area (old classes kept for JS compat) */
+.term-select-area { padding: 0; }
+.student-welcome { display: none; } /* replaced by sd-hero */
+.student-nav { display: none; }     /* replaced by sd-topbar */
+
+/* Responsive */
+@media (max-width: 1100px) { .sd-main-grid { grid-template-columns: 1fr; } .sd-hero-stats { display: none; } }
+@media (max-width: 900px)  { .sd-metric-grid { grid-template-columns: 1fr 1fr; } .sd-bottom-grid { grid-template-columns: 1fr; } }
+@media (max-width: 680px)  { .sd-sidebar { display: none; } .sd-content { padding: 14px; } .sd-metric-grid { grid-template-columns: 1fr; } .sd-term-grid { grid-template-columns: 1fr; } .sd-hero { padding: 18px; } }
 
 /* ============================================================
    PRINT STYLES
@@ -804,10 +1089,230 @@ body {
 .toast.success { border-color:rgba(34,197,94,0.5); color:var(--dash-accent); }
 .toast.error   { border-color:rgba(239,68,68,0.4);  color:#fca5a5; }
 
-/* START CUSTOM EDIT SECTION — Admin Dashboard Extra Panels */
+/* ============================================================
+   ADMIN DASHBOARD — NEW PROFESSIONAL DESIGN
+   ============================================================ */
+:root {
+  --ad-ink:      #0f172a;
+  --ad-ink2:     #334155;
+  --ad-ink3:     #64748b;
+  --ad-surface:  #ffffff;
+  --ad-bg:       #f8fafc;
+  --ad-border:   #e2e8f0;
+  --ad-border2:  #cbd5e1;
+  --ad-indigo:   #4f46e5;
+  --ad-indigo-lt:#eef2ff;
+  --ad-indigo-md:#c7d2fe;
+  --ad-emerald:  #059669;
+  --ad-emerald-lt:#d1fae5;
+  --ad-amber:    #d97706;
+  --ad-amber-lt: #fef3c7;
+  --ad-rose:     #e11d48;
+  --ad-rose-lt:  #ffe4e6;
+  --ad-purple:   #7c3aed;
+  --ad-purple-lt:#ede9fe;
+  --ad-blue:     #2563eb;
+  --ad-blue-lt:  #dbeafe;
+  --ad-font:     'DM Sans', 'Nunito', system-ui, sans-serif;
+  --ad-font-serif:'Instrument Serif', Georgia, serif;
+  --ad-r:        10px;
+  --ad-r-sm:     7px;
+  --ad-r-lg:     16px;
+  --ad-shadow-sm: 0 1px 3px rgba(15,23,42,.07), 0 1px 2px rgba(15,23,42,.05);
+  --ad-shadow-md: 0 4px 12px rgba(15,23,42,.07);
+}
 
-/* Dashboard tabs nav */
-.dash-tabs {
+/* Override old layout for admin screen */
+#screen-admin-dash .dash-layout { background: var(--ad-bg); }
+#screen-admin-dash .dash-nav { display: none !important; }
+#screen-admin-dash .dash-main { padding: 0; overflow: visible; }
+
+/* New admin container */
+.ad-shell {
+  display: flex;
+  min-height: 100vh;
+  font-family: var(--ad-font);
+}
+
+/* Admin Sidebar */
+.ad-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--ad-ink);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.ad-sb-brand {
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.ad-sb-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.ad-sb-logo { width: 34px; height: 34px; border-radius: 9px; background: var(--ad-indigo); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+.ad-sb-logo img { width: 100%; height: 100%; object-fit: contain; }
+.ad-sb-school { font-size: 13px; color: #fff; font-family: var(--ad-font-serif); line-height: 1.2; }
+.ad-sb-tagline { font-size: 10px; color: rgba(255,255,255,.3); margin-top: 2px; }
+.ad-sb-badge { margin: 14px 18px 0; background: rgba(79,70,229,.3); border: 1px solid rgba(79,70,229,.5); border-radius: 999px; padding: 5px 12px; font-size: 11px; color: #a5b4fc; font-weight: 600; text-align: center; }
+
+.ad-sb-nav { flex: 1; padding: 14px 10px; }
+.ad-sb-section { font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.22); font-weight: 600; padding: 8px 8px 3px; margin-bottom: 3px; }
+.ad-sb-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 9px; border-radius: var(--ad-r-sm);
+  color: rgba(255,255,255,.45); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .16s ease; margin-bottom: 1px;
+  border: none; background: none; width: 100%; text-align: left;
+  font-family: var(--ad-font);
+}
+.ad-sb-item i { font-size: 13px; flex-shrink: 0; width: 15px; text-align: center; }
+.ad-sb-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.82); }
+.ad-sb-item.ad-active { background: var(--ad-indigo); color: #fff; box-shadow: 0 2px 8px rgba(79,70,229,.45); }
+
+.ad-sb-bottom { padding: 12px 10px; border-top: 1px solid rgba(255,255,255,.07); }
+.ad-sb-user { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border-radius: var(--ad-r-sm); margin-bottom: 4px; }
+.ad-sb-user-av { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#6366f1,#8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #fff; flex-shrink: 0; }
+.ad-sb-user-name { font-size: 12px; color: rgba(255,255,255,.7); font-weight: 500; }
+.ad-sb-logout { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border-radius: var(--ad-r-sm); color: rgba(255,255,255,.35); font-size: 12px; cursor: pointer; border: none; background: none; width: 100%; font-family: var(--ad-font); transition: all .16s ease; }
+.ad-sb-logout:hover { color: #f87171; background: rgba(239,68,68,.1); }
+
+/* Admin Main */
+.ad-main { flex: 1; min-width: 0; display: flex; flex-direction: column; background: var(--ad-bg); }
+
+/* Admin Topbar */
+.ad-topbar {
+  background: var(--ad-surface);
+  border-bottom: 1px solid var(--ad-border);
+  padding: 0 24px; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+}
+.ad-topbar-left { display: flex; align-items: center; gap: 14px; }
+.ad-hamburger { width: 34px; height: 34px; border-radius: var(--ad-r-sm); border: 1px solid var(--ad-border); background: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ad-ink3); font-size: 14px; display: none; }
+.ad-page-eyebrow { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ad-ink3); font-weight: 600; }
+.ad-page-title { font-family: var(--ad-font-serif); font-size: 16px; color: var(--ad-ink); }
+.ad-topbar-right { display: flex; align-items: center; gap: 8px; }
+.ad-icon-btn { width: 34px; height: 34px; border-radius: var(--ad-r-sm); border: 1px solid var(--ad-border); background: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ad-ink3); font-size: 13px; transition: all .16s ease; }
+.ad-icon-btn:hover { background: var(--ad-indigo-lt); border-color: var(--ad-indigo-md); color: var(--ad-indigo); }
+.ad-topbar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#6366f1,#8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; border: 2px solid var(--ad-border); cursor: pointer; }
+.ad-session-pill { font-size: 11px; font-weight: 600; background: var(--ad-indigo-lt); color: var(--ad-indigo); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--ad-indigo-md); }
+
+/* Admin content */
+.ad-content { padding: 22px 24px; flex: 1; }
+
+/* Hero stats */
+.ad-hero-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 22px; }
+.ad-stat-card { background: var(--ad-surface); border: 1px solid var(--ad-border); border-radius: var(--ad-r-lg); box-shadow: var(--ad-shadow-sm); padding: 18px; }
+.ad-stat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+.ad-stat-icon { width: 36px; height: 36px; border-radius: var(--ad-r-sm); display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.ad-stat-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.ad-stat-value { font-size: 28px; font-weight: 600; color: var(--ad-ink); letter-spacing: -.04em; line-height: 1; }
+.ad-stat-label { font-size: 12px; color: var(--ad-ink3); font-weight: 500; margin-top: 3px; }
+.ad-c-indigo { background: var(--ad-indigo-lt); color: var(--ad-indigo); }
+.ad-c-emerald{ background: var(--ad-emerald-lt); color: var(--ad-emerald); }
+.ad-c-amber  { background: var(--ad-amber-lt);   color: var(--ad-amber); }
+.ad-c-purple { background: var(--ad-purple-lt);  color: var(--ad-purple); }
+.ad-c-rose   { background: var(--ad-rose-lt);    color: var(--ad-rose); }
+.ad-c-blue   { background: var(--ad-blue-lt);    color: var(--ad-blue); }
+
+/* Admin Tabs - new style */
+.ad-tab-bar {
+  display: flex; gap: 2px;
+  background: var(--ad-surface); border: 1px solid var(--ad-border);
+  border-radius: var(--ad-r-lg); padding: 4px;
+  margin-bottom: 20px; flex-wrap: wrap;
+  box-shadow: var(--ad-shadow-sm);
+}
+.ad-tab-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 13px; border-radius: var(--ad-r-sm);
+  border: none; background: none; font-family: var(--ad-font);
+  font-size: 12.5px; font-weight: 500; color: var(--ad-ink3);
+  cursor: pointer; transition: all .16s ease; white-space: nowrap;
+}
+.ad-tab-btn i { font-size: 12px; }
+.ad-tab-btn:hover { background: var(--ad-bg); color: var(--ad-ink2); }
+.ad-tab-btn.ad-tab-active { background: var(--ad-indigo); color: #fff; box-shadow: 0 1px 6px rgba(79,70,229,.35); }
+
+/* Admin cards */
+.ad-card { background: var(--ad-surface); border: 1px solid var(--ad-border); border-radius: var(--ad-r-lg); box-shadow: var(--ad-shadow-sm); overflow: hidden; margin-bottom: 18px; }
+.ad-card-header { padding: 14px 18px; border-bottom: 1px solid var(--ad-border); display: flex; align-items: center; justify-content: space-between; }
+.ad-card-title { font-size: 13px; font-weight: 600; color: var(--ad-ink); display: flex; align-items: center; gap: 7px; }
+.ad-card-title i { font-size: 13px; color: var(--ad-indigo); }
+.ad-card-body { padding: 16px 18px; }
+.ad-card-action { font-size: 11.5px; font-weight: 600; color: var(--ad-indigo); border: 1px solid var(--ad-indigo-md); background: var(--ad-indigo-lt); padding: 5px 12px; border-radius: var(--ad-r-sm); cursor: pointer; transition: all .16s ease; font-family: var(--ad-font); display: flex; align-items: center; gap: 5px; }
+.ad-card-action:hover { background: var(--ad-indigo); color: #fff; }
+
+/* Class grid — new design */
+.ad-class-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+
+.class-card {
+  background: var(--ad-surface); border: 1px solid var(--ad-border);
+  border-radius: var(--ad-r-lg); padding: 16px 14px;
+  cursor: pointer; transition: all .18s ease;
+  position: relative; overflow: hidden; box-shadow: var(--ad-shadow-sm);
+}
+.class-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity .18s ease;
+}
+.class-card:hover { border-color: var(--ad-indigo); transform: translateY(-2px); box-shadow: var(--ad-shadow-md); }
+.class-card:hover::before { opacity: 1; }
+.class-card.cat-nursery::before  { background: linear-gradient(90deg,#b91c1c,#ef4444); }
+.class-card.cat-primary::before  { background: linear-gradient(90deg,#059669,#34d399); }
+.class-card.cat-jss::before      { background: linear-gradient(90deg,#7c3aed,#a78bfa); }
+.class-card.cat-ss::before       { background: linear-gradient(90deg,#1e40af,#60a5fa); }
+.class-card.cat-nursery:hover { border-color: #ef4444; }
+.class-card.cat-jss:hover     { border-color: #7c3aed; }
+.class-card.cat-ss:hover      { border-color: #2563eb; }
+.class-card-icon { font-size: 22px; margin-bottom: 8px; }
+.class-card-name { font-size: 14px; font-weight: 600; color: var(--ad-ink); margin-bottom: 2px; }
+.class-card-sub  { font-size: 11px; color: var(--ad-ink3); font-weight: 500; }
+.class-card-badge {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+  padding: 2px 7px; border-radius: 999px;
+}
+.badge-nursery { background: var(--ad-rose-lt);   color: #9f1239; }
+.badge-primary { background: var(--ad-emerald-lt); color: #065f46; }
+.badge-jss     { background: var(--ad-purple-lt); color: #5b21b6; }
+.badge-ss      { background: var(--ad-blue-lt);   color: #1e3a8a; }
+
+/* Stats row — keep old IDs working */
+.stats-row { display: none; } /* replaced by ad-hero-grid */
+
+/* Old dash-tabs replaced by ad-tab-bar */
+.dash-tabs { display: none; }
+/* Re-show tab-panels */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeInUp .24s ease; }
+
+/* Section headings — updated */
+.section-heading {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ad-ink3);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.section-heading::after { content: ''; flex: 1; height: 1px; background: var(--ad-border); }
+
+/* Loading bar update */
+.loading-bar { background: var(--ad-indigo-lt); border: 1px solid var(--ad-indigo-md); border-radius: var(--ad-r-sm); }
+.loading-bar span { color: var(--ad-indigo); font-size: 12px; font-weight: 600; }
+.spinner { border-color: var(--ad-indigo-md); border-top-color: var(--ad-indigo); }
+
+/* Admin responsive */
+@media (max-width: 1100px) { .ad-hero-grid { grid-template-columns: 1fr 1fr; } .ad-class-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 820px)  {
+  .ad-sidebar {
+    display: flex; position: fixed; top: 0; left: 0; bottom: 0;
+    transform: translateX(-100%); transition: transform .28s cubic-bezier(.4,0,.2,1);
+    z-index: 200; box-shadow: 4px 0 24px rgba(0,0,0,.3);
+  }
+  .ad-sidebar.open { transform: translateX(0); }
+  .ad-hamburger { display: flex; }
+}
+@media (max-width: 600px)  { .ad-hero-grid { grid-template-columns: 1fr; } .ad-class-grid { grid-template-columns: 1fr; } .ad-content { padding: 14px; } }
   display: flex; gap: 6px; margin-bottom: 20px;
   flex-wrap: wrap;
 }
@@ -1714,820 +2219,573 @@ canvas.pa-chart {
 </div>
 
 <!-- ============================================================
-     SCREEN 4: ADMIN DASHBOARD
+     SCREEN 4: ADMIN DASHBOARD — REDESIGNED
      ============================================================ -->
 <div id="screen-admin-dash" class="screen">
-  <div class="dash-layout" style="flex:1;">
+  <div class="ad-shell">
 
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="admin-sidebar">
-      <div class="sidebar-header">
-        <img src="https://i.postimg.cc/VvMcYqbb/LOGO.png" alt="Logo" onerror="this.style.display='none'">
-        <div class="sidebar-header-title">Pariya Academy</div>
-        <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+    <!-- ── Admin Sidebar ── -->
+    <aside class="ad-sidebar" id="admin-sidebar">
+      <div class="ad-sb-brand">
+        <div class="ad-sb-logo-row">
+          <div class="ad-sb-logo">
+            <img src="https://i.postimg.cc/VvMcYqbb/LOGO.png" alt="Logo" onerror="this.parentElement.innerHTML='P'">
+          </div>
+          <div>
+            <div class="ad-sb-school">Pariya Academy</div>
+            <div class="ad-sb-tagline">For Modern Science &amp; Quran</div>
+          </div>
+        </div>
       </div>
-      <nav class="sidebar-nav">
-        <button class="sidebar-item" onclick="switchTab('tab-classes');toggleSidebar()"><span class="si-icon">🏠</span> Dashboard</button>
-        <button class="sidebar-item" onclick="switchTab('tab-classes');toggleSidebar()"><span class="si-icon">🏫</span> Classes</button>
-        <button class="sidebar-item" onclick="openTeachersSection();toggleSidebar()"><span class="si-icon">👨‍🏫</span> Teachers</button>
-        <button class="sidebar-item" onclick="openFeesSection();toggleSidebar()"><span class="si-icon">💰</span> School Fees</button>
-        <button class="sidebar-item" onclick="switchTab('tab-progress');toggleSidebar()"><span class="si-icon">📊</span> Progress</button>
-        <button class="sidebar-item" onclick="switchTab('tab-analytics');toggleSidebar()"><span class="si-icon">📈</span> Analytics</button>
-        <button class="sidebar-item" onclick="switchTab('tab-websites');toggleSidebar()"><span class="si-icon">🌐</span> Websites</button>
-        <button class="sidebar-item" onclick="switchTab('tab-awards');toggleSidebar()"><span class="si-icon">🏆</span> Awards</button>
-        <button class="sidebar-item" onclick="switchTab('tab-guide');toggleSidebar()"><span class="si-icon">📖</span> Guide</button>
-        <button class="sidebar-item" onclick="switchTab('tab-settings');toggleSidebar()"><span class="si-icon">⚙️</span> Settings</button>
-        <button class="sidebar-item" onclick="logout()"><span class="si-icon">🚪</span> Sign Out</button>
+      <div class="ad-sb-badge">Admin Portal</div>
+
+      <nav class="ad-sb-nav">
+        <div class="ad-sb-section">Management</div>
+        <button class="ad-sb-item ad-active" onclick="switchTab('tab-classes');setAdActive(this)">
+          <i class="fa-solid fa-house"></i> Dashboard
+        </button>
+        <button class="ad-sb-item" onclick="switchTab('tab-classes');setAdActive(this)">
+          <i class="fa-solid fa-school"></i> Classes
+        </button>
+        <button class="ad-sb-item" onclick="openTeachersSection();setAdActive(this)">
+          <i class="fa-solid fa-chalkboard-user"></i> Teachers
+        </button>
+        <button class="ad-sb-item" onclick="openFeesSection();setAdActive(this)">
+          <i class="fa-solid fa-money-bill-wave"></i> School Fees
+        </button>
+
+        <div class="ad-sb-section" style="margin-top:10px;">Analytics</div>
+        <button class="ad-sb-item" onclick="switchTab('tab-progress');setAdActive(this)">
+          <i class="fa-solid fa-chart-simple"></i> Progress
+        </button>
+        <button class="ad-sb-item" onclick="switchTab('tab-analytics');setAdActive(this)">
+          <i class="fa-solid fa-chart-line"></i> Analytics
+        </button>
+        <button class="ad-sb-item" onclick="switchTab('tab-awards');setAdActive(this)">
+          <i class="fa-solid fa-trophy"></i> Awards
+        </button>
+
+        <div class="ad-sb-section" style="margin-top:10px;">System</div>
+        <button class="ad-sb-item" onclick="switchTab('tab-websites');setAdActive(this)">
+          <i class="fa-solid fa-globe"></i> Websites
+        </button>
+        <button class="ad-sb-item" onclick="switchTab('tab-guide');setAdActive(this)">
+          <i class="fa-solid fa-book-open"></i> Guide
+        </button>
+        <button class="ad-sb-item" onclick="switchTab('tab-settings');setAdActive(this)">
+          <i class="fa-solid fa-gear"></i> Settings
+        </button>
       </nav>
-    </aside>
 
-    <nav class="dash-nav">
-      <div class="dash-nav-brand">
-        <button class="hamburger-btn" onclick="toggleSidebar()" title="Menu">☰</button>
-        <img src="https://i.postimg.cc/VvMcYqbb/LOGO.png" alt="Logo" onerror="this.style.display='none'">
-        <span>Pariya Academy</span>
-      </div>
-      <div class="dash-nav-actions">
-        <button class="theme-toggle-btn" onclick="toggleTheme()" id="admin-theme-btn" title="Toggle theme">🌙</button>
-        <div class="nav-user-chip"><div class="avatar">A</div>Admin</div>
-        <button class="btn-logout" onclick="logout()">Sign Out</button>
-      </div>
-    </nav>
-
-    <main class="dash-main">
-
-      <!-- Stats Row -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-label">Classes</div>
-          <div class="stat-value" id="stat-classes">0</div>
-          <div class="stat-sub">Connected</div>
+      <div class="ad-sb-bottom">
+        <div class="ad-sb-user">
+          <div class="ad-sb-user-av">A</div>
+          <span class="ad-sb-user-name">Administrator</span>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Students</div>
-          <!-- START CUSTOM EDIT SECTION — Total Students All Classes -->
-          <div class="stat-value" id="stat-students">—</div>
-          <div class="stat-sub" id="stat-students-sub">All classes</div>
-          <!-- END CUSTOM EDIT SECTION -->
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Session</div>
-          <div class="stat-value" style="font-size:13px;padding-top:3px;" id="stat-session">2025/26</div>
-          <div class="stat-sub">Academic</div>
-        </div>
-      </div>
-
-      <!-- START CUSTOM EDIT SECTION — Dashboard Tabs -->
-      <div class="dash-tabs">
-        <button class="dash-tab active" onclick="switchTab('tab-classes')">🏫 Classes</button>
-        <button class="dash-tab" onclick="switchTab('tab-progress')">📊 Progress</button>
-        <button class="dash-tab" onclick="switchTab('tab-analytics')">📈 Analytics</button>
-        <button class="dash-tab" onclick="openTeachersSection()">👨‍🏫 Teachers</button>
-        <button class="dash-tab" onclick="openFeesSection()">💰 School Fees</button>
-        <button class="dash-tab" onclick="switchTab('tab-websites')">🌐 Websites</button>
-        <button class="dash-tab" onclick="switchTab('tab-awards')">🏆 Awards</button>
-        <button class="dash-tab" onclick="switchTab('tab-guide')">📖 Guide</button>
-        <button class="dash-tab" onclick="switchTab('tab-settings')">⚙️ Settings</button>
-      </div>
-
-      <!-- TAB: Classes -->
-      <div id="tab-classes" class="tab-panel active">
-        <div class="section-heading">Select Class to View Details</div>
-        <div class="class-grid" id="classGrid"></div>
-
-        <div id="admin-loading" class="loading-bar">
-          <div class="spinner"></div>
-          <span id="admin-loading-text">Fetching student data…</span>
-        </div>
-
-        <!-- Report area (shown after Generate All Results is clicked) -->
-        <div id="reportWrapper" style="display:none;">
-          <div class="section-heading" id="reportSectionLabel">Generated Reports</div>
-          <div class="report-wrapper">
-            <div class="report-area-toolbar">
-              <button class="btn-report btn-report-primary" onclick="downloadAllReports()">📄 All in One PDF</button>
-              <button class="btn-report btn-report-outline" onclick="downloadReportsIndividually()">📁 Download Each</button>
-              <button class="btn-report btn-report-outline" onclick="safePrint()">🖨️ Print All</button>
-            </div>
-            <div id="reportArea"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ============================================================
-           START CUSTOM EDIT SECTION — Teachers Tab Panel
-           ============================================================ -->
-      <div id="tab-teachers" class="tab-panel">
-
-        <!-- Sub-view: Section picker -->
-        <div id="teachers-section-picker">
-          <div class="section-heading">Select Section</div>
-          <div class="section-cards-grid">
-            <div class="section-big-card sec-nursery" onclick="loadTeachersBySection('Nursery')">
-              <div class="section-big-card-icon">🌱</div>
-              <div class="section-big-card-name">Nursery</div>
-              <div class="section-big-card-sub">Early Years Teachers</div>
-            </div>
-            <div class="section-big-card sec-primary" onclick="loadTeachersBySection('Primary')">
-              <div class="section-big-card-icon">📚</div>
-              <div class="section-big-card-name">Primary</div>
-              <div class="section-big-card-sub">Primary School Teachers</div>
-            </div>
-            <div class="section-big-card sec-jss" onclick="loadTeachersBySection('Junior Secondary')">
-              <div class="section-big-card-icon">🔬</div>
-              <div class="section-big-card-name">Junior Secondary</div>
-              <div class="section-big-card-sub">JSS Teachers</div>
-            </div>
-            <div class="section-big-card sec-ss" onclick="loadTeachersBySection('Senior Secondary')">
-              <div class="section-big-card-icon">🎓</div>
-              <div class="section-big-card-name">Senior Secondary</div>
-              <div class="section-big-card-sub">SS Teachers</div>
-            </div>
-          </div>
-          <div id="teachers-loading" class="loading-bar">
-            <div class="spinner"></div>
-            <span>Loading teachers data…</span>
-          </div>
-          <p style="font-size:12px;color:var(--dash-muted);font-weight:600;">
-            Configure <code style="font-size:11px;background:var(--dash-bg);padding:1px 5px;border-radius:4px;color:var(--dash-accent);">TEACHERS_CSV_URL</code> in the config to load live teacher data.
-          </p>
-        </div>
-
-        <!-- Sub-view: Teacher list for a section -->
-        <div id="teachers-list-view" style="display:none;">
-          <button class="btn-section-back" onclick="showTeachersSectionPicker()">← Back to Sections</button>
-          <div class="section-heading" id="teachers-list-heading">Teachers</div>
-          <div class="dl-btn-row">
-            <button class="btn-dl-pdf" onclick="downloadTeachersPDF()">📄 Download Teachers PDF</button>
-          </div>
-          <div class="teacher-list" id="teachers-list-container"></div>
-        </div>
-
-        <!-- Sub-view: Teacher profile -->
-        <div id="teachers-profile-view" style="display:none;">
-          <button class="btn-section-back" onclick="showTeachersList()">← Back to Teachers</button>
-          <div id="teacher-profile-container"></div>
-        </div>
-
-      </div>
-      <!-- END CUSTOM EDIT SECTION — Teachers Tab Panel -->
-
-      <!-- ============================================================
-           START CUSTOM EDIT SECTION — School Fees Tab Panel
-           ============================================================ -->
-      <div id="tab-fees" class="tab-panel">
-
-        <!-- Sub-view: Fee summary + class cards -->
-        <div id="fees-summary-view">
-          <div class="section-heading">School Fees Overview</div>
-          <div class="dl-btn-row">
-            <button class="btn-dl-pdf green" onclick="downloadFeesSummaryPDF()">📄 Download Fees Summary PDF</button>
-          </div>
-          <div id="fees-loading" class="loading-bar">
-            <div class="spinner"></div>
-            <span>Calculating fee data…</span>
-          </div>
-
-          <!-- Fees summary table -->
-          <div style="overflow-x:auto;margin-bottom:16px;">
-            <table class="fees-summary-table" id="fees-summary-table">
-              <thead><tr>
-                <th>Section</th>
-                <th>Fee / Student</th>
-                <th>Students</th>
-                <th>Expected Total</th>
-              </tr></thead>
-              <tbody id="fees-summary-tbody">
-                <tr><td colspan="4" style="color:var(--dash-muted);font-size:12px;text-align:center;">Click a class below to load data</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Grand total -->
-          <div class="fees-grand-total">
-            <span class="fees-grand-label">💰 Grand Total Expected</span>
-            <span class="fees-grand-value" id="fees-grand-total">₦0</span>
-          </div>
-
-          <div class="section-heading">Select Class to View Payments</div>
-          <div class="class-grid" id="fees-class-grid"></div>
-        </div>
-
-        <!-- Sub-view: Term selector for a class -->
-        <div id="fees-class-view" style="display:none;">
-          <button class="btn-section-back" onclick="showFeesSummaryView()">← Back to Overview</button>
-          <div class="section-heading" id="fees-class-heading">Select Term</div>
-          <div class="dl-btn-row">
-            <button class="btn-dl-pdf green" onclick="downloadFeesClassPDF()">📄 Download This Class Fees PDF</button>
-          </div>
-          <div class="term-selector-row">
-            <button class="btn-term-select" onclick="loadClassFeesData(currentFeesClass,'First Term',this)">📗 First Term</button>
-            <button class="btn-term-select" onclick="loadClassFeesData(currentFeesClass,'Second Term',this)">📘 Second Term</button>
-            <button class="btn-term-select" onclick="loadClassFeesData(currentFeesClass,'Third Term',this)">📙 Third Term</button>
-          </div>
-
-          <!-- Stats -->
-          <div class="fees-stats-row" id="fees-stats-row">
-            <div class="fees-stat-card">
-              <div class="fees-stat-label">Total Students</div>
-              <div class="fees-stat-value" id="fees-stat-total">—</div>
-              <div class="fees-stat-sub">Enrolled</div>
-            </div>
-            <div class="fees-stat-card">
-              <div class="fees-stat-label">Paid</div>
-              <div class="fees-stat-value" style="color:#22c55e;" id="fees-stat-paid">—</div>
-              <div class="fees-stat-sub">Fully paid</div>
-            </div>
-            <div class="fees-stat-card">
-              <div class="fees-stat-label">Outstanding</div>
-              <div class="fees-stat-value" style="color:#ef4444;" id="fees-stat-outstanding">—</div>
-              <div class="fees-stat-sub">Not cleared</div>
-            </div>
-          </div>
-          <div class="fees-stats-row" style="margin-top:-4px;" id="fees-amount-row">
-            <div class="fees-stat-card">
-              <div class="fees-stat-label">Amount Collected</div>
-              <div class="fees-stat-value" style="color:#22c55e;" id="fees-stat-collected">—</div>
-              <div class="fees-stat-sub">This term</div>
-            </div>
-            <div class="fees-stat-card">
-              <div class="fees-stat-label">Outstanding Amount</div>
-              <div class="fees-stat-value" style="color:#ef4444;" id="fees-stat-owed">—</div>
-              <div class="fees-stat-sub">This term</div>
-            </div>
-            <div class="fees-stat-card">
-              <div class="fees-stat-label">Collection Rate</div>
-              <div class="fees-stat-value" id="fees-stat-rate">—</div>
-              <div class="fees-stat-sub">Percent</div>
-            </div>
-          </div>
-
-          <!-- Student fees table -->
-          <div id="fees-class-loading" class="loading-bar">
-            <div class="spinner"></div>
-            <span>Loading fees data…</span>
-          </div>
-          <div style="overflow-x:auto;">
-            <table class="fees-student-table" id="fees-student-table">
-              <thead><tr>
-                <th>#</th>
-                <th>Student Name</th>
-                <th>Admission No</th>
-                <th>Expected Fee</th>
-                <th>Amount Paid</th>
-                <th>Status</th>
-              </tr></thead>
-              <tbody id="fees-student-tbody">
-                <tr><td colspan="6" style="color:var(--dash-muted);text-align:center;font-size:12px;">Select a term above to load</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-      <!-- END CUSTOM EDIT SECTION — School Fees Tab Panel -->
-
-      <!-- TAB: Performance Progress Tracker -->
-      <!-- START CUSTOM EDIT SECTION — Progress Tracker Tab -->
-      <div id="tab-progress" class="tab-panel">
-        <div class="section-heading">Performance Progress Tracker</div>
-        <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">
-          Track how many students have CA and Exam scores filled per class. Click a class to load.
-        </p>
-
-        <div id="progress-loading" class="loading-bar">
-          <div class="spinner"></div>
-          <span>Calculating progress…</span>
-        </div>
-
-        <!-- School-wide summary -->
-        <div class="summary-school-block" id="progress-school-summary" style="display:none;">
-          <div class="summary-school-title">📊 School-Wide Summary</div>
-          <div class="progress-tracker-grid" id="progress-school-grid"></div>
-        </div>
-
-        <!-- Per-class progress cards -->
-        <div id="progress-class-list"></div>
-
-        <button class="btn-export-pdf" onclick="loadAllClassProgress()" style="margin-top:4px;">
-          🔄 Load Progress for All Classes
+        <button class="ad-sb-logout" onclick="logout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
         </button>
       </div>
-      <!-- END CUSTOM EDIT SECTION — Progress Tracker Tab -->
+    </aside>
 
-      <!-- TAB: Class Analytics -->
-      <!-- START CUSTOM EDIT SECTION — Analytics Tab -->
-      <div id="tab-analytics" class="tab-panel">
-        <div class="section-heading">📈 Advanced Analytics</div>
-        <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">
-          School-wide performance statistics, term comparisons, and intelligent insights.
-        </p>
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-        <div id="analytics-loading" class="loading-bar">
-          <div class="spinner"></div>
-          <span>Computing analytics…</span>
-        </div>
+    <!-- ── Admin Main ── -->
+    <div class="ad-main">
 
-        <!-- ── Export Buttons ── -->
-        <div class="dl-btn-row" style="margin-bottom:16px;">
-          <button class="btn-export-pdf" onclick="loadAllAnalytics()">
-            🔄 Load All Analytics
+      <!-- Admin Topbar -->
+      <header class="ad-topbar">
+        <div class="ad-topbar-left">
+          <button class="ad-hamburger" onclick="toggleSidebar()" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
           </button>
-          <button class="btn-dl-pdf" onclick="downloadAnalyticsPDF()" style="margin-left:8px;">
-            📄 Export Analytics PDF
+          <div>
+            <div class="ad-page-eyebrow">Administration</div>
+            <div class="ad-page-title">Admin Dashboard</div>
+          </div>
+        </div>
+        <div class="ad-topbar-right">
+          <span class="ad-session-pill" id="stat-session">2025/26</span>
+          <button class="ad-icon-btn" onclick="toggleTheme()" id="admin-theme-btn" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
           </button>
-          <button class="btn-dl-pdf green" onclick="downloadAnalyticsWord()" style="margin-left:8px;">
-            📝 Export Analytics Word
+          <button class="ad-icon-btn" onclick="logout()" title="Sign out" style="color:#ef4444;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+          <div class="ad-topbar-avatar">A</div>
+        </div>
+      </header>
+
+      <!-- Admin Content -->
+      <div class="ad-content">
+
+        <!-- Hero Stats -->
+        <div class="ad-hero-grid" style="margin-bottom:20px;">
+          <div class="ad-stat-card">
+            <div class="ad-stat-top">
+              <div class="ad-stat-icon ad-c-indigo"><i class="fa-solid fa-school"></i></div>
+              <span class="ad-stat-badge ad-c-indigo">Active</span>
+            </div>
+            <div class="ad-stat-value" id="stat-classes">0</div>
+            <div class="ad-stat-label">Classes Connected</div>
+          </div>
+          <div class="ad-stat-card">
+            <div class="ad-stat-top">
+              <div class="ad-stat-icon ad-c-emerald"><i class="fa-solid fa-users"></i></div>
+              <span class="ad-stat-badge ad-c-emerald">Enrolled</span>
+            </div>
+            <div class="ad-stat-value" id="stat-students">—</div>
+            <div class="ad-stat-label" id="stat-students-sub">Total Students</div>
+          </div>
+          <div class="ad-stat-card">
+            <div class="ad-stat-top">
+              <div class="ad-stat-icon ad-c-amber"><i class="fa-solid fa-calendar"></i></div>
+              <span class="ad-stat-badge ad-c-amber">Current</span>
+            </div>
+            <div class="ad-stat-value" style="font-size:18px;padding-top:4px;">2025/26</div>
+            <div class="ad-stat-label">Academic Session</div>
+          </div>
+          <div class="ad-stat-card">
+            <div class="ad-stat-top">
+              <div class="ad-stat-icon ad-c-purple"><i class="fa-solid fa-layer-group"></i></div>
+              <span class="ad-stat-badge ad-c-purple">System</span>
+            </div>
+            <div class="ad-stat-value" style="font-size:14px;padding-top:6px;">v3.1</div>
+            <div class="ad-stat-label">Portal Version</div>
+          </div>
+        </div>
+
+        <!-- New Admin Tab Bar -->
+        <div class="ad-tab-bar">
+          <button class="ad-tab-btn ad-tab-active" onclick="switchTab('tab-classes');setAdTab(this)">
+            <i class="fa-solid fa-school"></i> Classes
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-progress');setAdTab(this)">
+            <i class="fa-solid fa-chart-simple"></i> Progress
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-analytics');setAdTab(this)">
+            <i class="fa-solid fa-chart-line"></i> Analytics
+          </button>
+          <button class="ad-tab-btn" onclick="openTeachersSection();setAdTab(this)">
+            <i class="fa-solid fa-chalkboard-user"></i> Teachers
+          </button>
+          <button class="ad-tab-btn" onclick="openFeesSection();setAdTab(this)">
+            <i class="fa-solid fa-money-bill-wave"></i> Fees
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-websites');setAdTab(this)">
+            <i class="fa-solid fa-globe"></i> Websites
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-awards');setAdTab(this)">
+            <i class="fa-solid fa-trophy"></i> Awards
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-guide');setAdTab(this)">
+            <i class="fa-solid fa-book-open"></i> Guide
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-settings');setAdTab(this)">
+            <i class="fa-solid fa-gear"></i> Settings
           </button>
         </div>
 
-        <!-- ── A. Student Performance Overview ── -->
-        <div id="analytics-overview-section" style="display:none;">
-          <div class="section-heading" style="font-size:13px;">A. Student Performance Overview</div>
-          <div class="analytics-perf-grid" id="analytics-perf-grid"></div>
-        </div>
-
-        <!-- ── B. Term Comparison ── -->
-        <div id="analytics-term-section" style="display:none;">
-          <div class="section-heading" style="font-size:13px;margin-top:4px;">B. Term Comparison Analytics</div>
-          <div style="overflow-x:auto;margin-bottom:16px;">
-            <table class="salary-table" id="analytics-term-table" style="width:100%;min-width:400px;">
-              <thead><tr>
-                <th>Class</th>
-                <th>1st Term Avg</th>
-                <th>2nd Term Avg</th>
-                <th>3rd Term Avg</th>
-                <th>Trend</th>
-              </tr></thead>
-              <tbody id="analytics-term-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- ── C. Performance Trend Summary (Insights) ── -->
-        <div id="analytics-insights-section" style="display:none;">
-          <div class="section-heading" style="font-size:13px;margin-top:4px;">C. Performance Trend Summary</div>
-          <div id="analytics-insights-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
-        </div>
-
-        <!-- ── Chart Section ── -->
-        <div id="analytics-charts-section" style="display:none;">
-          <div class="analytics-charts-row">
-            <div class="analytics-chart-card">
-              <div class="analytics-chart-title">📊 Class Average Scores</div>
-              <div class="chart-canvas-wrap">
-                <canvas id="chart-bar-avg" class="pa-chart"></canvas>
+        <!-- TAB: Classes -->
+        <div id="tab-classes" class="tab-panel active">
+          <div class="ad-card">
+            <div class="ad-card-header">
+              <div class="ad-card-title">
+                <i class="fa-solid fa-school"></i> Class Management
               </div>
+              <div style="font-size:12px;color:var(--ad-ink3);">Click a class to view students &amp; generate reports</div>
             </div>
-            <div class="analytics-chart-card">
-              <div class="analytics-chart-title">🥧 Pass / Fail Distribution</div>
-              <div class="chart-canvas-wrap">
-                <canvas id="chart-pie-pass" class="pa-chart"></canvas>
+            <div class="ad-card-body">
+              <div class="ad-class-grid" id="classGrid"></div>
+
+              <div id="admin-loading" class="loading-bar" style="margin-top:12px;">
+                <div class="spinner"></div>
+                <span id="admin-loading-text">Fetching student data…</span>
               </div>
             </div>
           </div>
-          <div class="edu-chart-card">
-            <div class="analytics-chart-title">🎓 Gender Distribution Per Class</div>
-            <div class="chart-canvas-wrap" style="min-height:180px;">
-              <canvas id="chart-edu-gender" class="pa-chart" style="max-height:180px;"></canvas>
-            </div>
-            <div class="edu-chart-legend" id="edu-chart-legend">
-              <div class="edu-legend-item"><div class="edu-legend-dot" style="background:#3b82f6;"></div>Male</div>
-              <div class="edu-legend-item"><div class="edu-legend-dot" style="background:#ec4899;"></div>Female</div>
-            </div>
-          </div>
-        </div>
 
-        <!-- ── D. Per-class analytics cards ── -->
-        <div id="analytics-cards"></div>
-      </div>
-      <!-- END CUSTOM EDIT SECTION — Analytics Tab -->
-
-      <!-- TAB: School Websites Manager -->
-      <!-- START CUSTOM EDIT SECTION — Websites Tab -->
-      <div id="tab-websites" class="tab-panel">
-        <div class="section-heading">School Websites Manager</div>
-        <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">
-          Manage school website credentials. Data is fetched from the Websites Google Sheet CSV.
-          Add websites by editing the <code style="background:var(--dash-card);padding:2px 5px;border-radius:4px;color:var(--dash-accent);">SCHOOL_WEBSITES</code> array in the config section.
-        </p>
-
-        <div id="websites-loading" class="loading-bar">
-          <div class="spinner"></div>
-          <span>Loading websites…</span>
-        </div>
-
-        <div id="websites-list"></div>
-      </div>
-      <!-- END CUSTOM EDIT SECTION — Websites Tab -->
-
-      <!-- TAB: Settings -->
-      <div id="tab-settings" class="tab-panel">
-        <div class="section-heading">⚙️ Portal Settings</div>
-        <div class="settings-grid">
-
-          <div class="settings-card">
-            <div class="settings-card-title">🎨 Appearance</div>
-            <div class="settings-row">
-              <div>
-                <div class="settings-row-label">Theme Mode</div>
-                <div class="settings-row-sub">Switch between dark and light</div>
+          <!-- Report area (shown after Generate All Results is clicked) -->
+          <div id="reportWrapper" style="display:none;">
+            <div class="ad-card">
+              <div class="ad-card-header">
+                <div class="ad-card-title">
+                  <i class="fa-solid fa-file-lines"></i>
+                  <span id="reportSectionLabel">Generated Reports</span>
+                </div>
+                <div class="report-area-toolbar" style="margin:0;">
+                  <button class="btn-report btn-report-primary" onclick="downloadAllReports()">
+                    <i class="fa-solid fa-file-pdf"></i> All in One PDF
+                  </button>
+                  <button class="btn-report btn-report-outline" onclick="downloadReportsIndividually()">
+                    <i class="fa-solid fa-folder-open"></i> Download Each
+                  </button>
+                  <button class="btn-report btn-report-outline" onclick="safePrint()">
+                    <i class="fa-solid fa-print"></i> Print All
+                  </button>
+                </div>
               </div>
-              <button class="btn-settings-action" onclick="toggleTheme()" id="settings-theme-btn">🌙 Dark Mode (Active)</button>
-            </div>
-          </div>
-
-          <div class="settings-card">
-            <div class="settings-card-title">🔒 Security</div>
-            <div class="settings-row">
-              <div>
-                <div class="settings-row-label">Security PIN</div>
-                <div class="settings-row-sub">PIN protects Teachers &amp; Fees sections</div>
+              <div class="ad-card-body">
+                <div class="report-wrapper" style="background:var(--ad-bg);border-radius:var(--ad-r);padding:12px;">
+                  <div id="reportArea"></div>
+                </div>
               </div>
-              <code style="font-size:12px;background:var(--dash-bg);padding:4px 10px;border-radius:6px;color:var(--dash-accent);border:1px solid var(--dash-border);">Change in SECURITY_PIN config</code>
             </div>
           </div>
-
-
-          <div class="settings-card">
-            <div class="settings-card-title">🏫 Portal Information</div>
-            <div class="settings-row">
-              <div class="settings-row-label">System Version</div>
-              <code style="font-size:11px;color:var(--dash-accent);">v3.1 — Pariya Academy</code>
-            </div>
-            <div class="settings-row">
-              <div class="settings-row-label">Designed By</div>
-              <span style="font-size:12px;font-weight:800;color:var(--dash-muted);">Arabo Modibbo</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <!-- END Settings Tab -->
-      <!-- TAB: Awards / Certificates -->
-      <div id="tab-awards" class="tab-panel">
-        <div class="section-heading">🏆 Awards &amp; Certificates</div>
-        <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:16px;">
-          Generate professional award certificates for outstanding students and dedicated staff.
-        </p>
-
-        <!-- Award Type Selector -->
-        <div class="dash-tabs" style="margin-bottom:20px;">
-          <button class="dash-tab active" onclick="switchAwardTab('award-student-best')" id="awdtab-student-best">🎖 Best Student Award</button>
-          <button class="dash-tab" onclick="switchAwardTab('award-student-custom')" id="awdtab-student-custom">✏️ Custom Student Award</button>
-          <button class="dash-tab" onclick="switchAwardTab('award-teacher')" id="awdtab-teacher">👨‍🏫 Teacher Award</button>
         </div>
 
-        <!-- PANEL 1: Best Student (Auto-generated from annual average) -->
-        <div id="award-student-best" class="award-panel" style="display:block;">
-          <div style="background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
-            <div style="font-size:13px;font-weight:800;color:var(--dash-accent);margin-bottom:8px;">🏆 Auto Best Student Certificates</div>
-            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;line-height:1.6;margin-bottom:12px;">
-              These certificates are automatically generated using the <strong style="color:var(--dash-text);">annual average</strong> (all 3 terms) for one best student per section. 
-              Click <strong style="color:var(--dash-text);">Load Analytics First</strong> on the Analytics tab to identify the best students, then click Generate below.
+        <!-- ── TEACHERS TAB ── -->
+        <div id="tab-teachers" class="tab-panel">
+          <div id="teachers-section-picker">
+            <div class="section-heading">Select Section</div>
+            <div class="section-cards-grid">
+              <div class="section-big-card sec-nursery" onclick="loadTeachersBySection('Nursery')">
+                <div class="section-big-card-icon">🌱</div>
+                <div class="section-big-card-name">Nursery</div>
+                <div class="section-big-card-sub">Early Years Teachers</div>
+              </div>
+              <div class="section-big-card sec-primary" onclick="loadTeachersBySection('Primary')">
+                <div class="section-big-card-icon">📚</div>
+                <div class="section-big-card-name">Primary</div>
+                <div class="section-big-card-sub">Primary School Teachers</div>
+              </div>
+              <div class="section-big-card sec-jss" onclick="loadTeachersBySection('Junior Secondary')">
+                <div class="section-big-card-icon">🔬</div>
+                <div class="section-big-card-name">Junior Secondary</div>
+                <div class="section-big-card-sub">JSS Teachers</div>
+              </div>
+              <div class="section-big-card sec-ss" onclick="loadTeachersBySection('Senior Secondary')">
+                <div class="section-big-card-icon">🎓</div>
+                <div class="section-big-card-name">Senior Secondary</div>
+                <div class="section-big-card-sub">SS Teachers</div>
+              </div>
+            </div>
+            <div id="teachers-loading" class="loading-bar">
+              <div class="spinner"></div>
+              <span>Loading teachers data…</span>
+            </div>
+            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;">
+              Configure <code style="font-size:11px;background:var(--dash-bg);padding:1px 5px;border-radius:4px;color:var(--dash-accent);">TEACHERS_CSV_URL</code> in the config to load live teacher data.
             </p>
-            <button class="btn-export-pdf" onclick="generateBestStudentCertificates()" style="margin-bottom:0;">
-              🏆 Generate Best Student Certificates (All Sections)
-            </button>
           </div>
-          <div id="best-student-certs-preview" style="display:flex;flex-direction:column;gap:24px;"></div>
+          <div id="teachers-list-view" style="display:none;">
+            <button class="btn-section-back" onclick="showTeachersSectionPicker()">← Back to Sections</button>
+            <div class="section-heading" id="teachers-list-heading">Teachers</div>
+            <div class="dl-btn-row">
+              <button class="btn-dl-pdf" onclick="downloadTeachersPDF()">📄 Download Teachers PDF</button>
+            </div>
+            <div class="teacher-list" id="teachers-list-container"></div>
+          </div>
+          <div id="teachers-profile-view" style="display:none;">
+            <button class="btn-section-back" onclick="showTeachersList()">← Back to Teachers</button>
+            <div id="teacher-profile-container"></div>
+          </div>
         </div>
 
-        <!-- PANEL 2: Custom Student Award -->
-        <div id="award-student-custom" class="award-panel" style="display:none;">
-          <div style="background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
-            <div style="font-size:13px;font-weight:800;color:var(--dash-accent);margin-bottom:12px;">✏️ Custom Student Award Certificate</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Student Full Name</label>
-                <input id="cust-stu-name" class="class-search-input" type="text" placeholder="e.g. Ahmad Musa Bello" style="width:100%;">
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Class</label>
-                <input id="cust-stu-class" class="class-search-input" type="text" placeholder="e.g. JSS 3A" style="width:100%;">
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Section</label>
-                <select id="cust-stu-section" class="class-search-input" style="width:100%;">
-                  <option value="Nursery">Nursery</option>
-                  <option value="Primary">Primary</option>
-                  <option value="Junior Secondary" selected>Junior Secondary</option>
-                  <option value="Senior Secondary">Senior Secondary</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Award Title / Purpose</label>
-                <input id="cust-stu-award" class="class-search-input" type="text" placeholder="e.g. Most Improved Student" style="width:100%;">
-              </div>
+        <!-- ── FEES TAB ── -->
+        <div id="tab-fees" class="tab-panel">
+          <div id="fees-summary-view">
+            <div class="section-heading">School Fees Overview</div>
+            <div class="dl-btn-row">
+              <button class="btn-dl-pdf green" onclick="downloadFeesSummaryPDF()">📄 Download Fees Summary PDF</button>
             </div>
-            <div style="margin-bottom:12px;">
-              <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Citation / Description (optional)</label>
-              <input id="cust-stu-desc" class="class-search-input" type="text" placeholder="e.g. In recognition of outstanding dedication and academic excellence" style="width:100%;">
+            <div id="fees-loading" class="loading-bar">
+              <div class="spinner"></div>
+              <span>Calculating fee data…</span>
             </div>
-            <button class="btn-export-pdf" onclick="generateCustomStudentCert()" style="margin-bottom:0;">
-              📄 Generate &amp; Download PDF
-            </button>
+            <div style="overflow-x:auto;margin-bottom:16px;">
+              <table class="fees-summary-table" id="fees-summary-table">
+                <thead><tr><th>Section</th><th>Fee / Student</th><th>Students</th><th>Expected Total</th></tr></thead>
+                <tbody id="fees-summary-tbody">
+                  <tr><td colspan="4" style="color:var(--dash-muted);font-size:12px;text-align:center;">Click a class below to load data</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="fees-grand-total">
+              <span class="fees-grand-label">💰 Grand Total Expected</span>
+              <span class="fees-grand-value" id="fees-grand-total">₦0</span>
+            </div>
+            <div class="section-heading">Select Class to View Payments</div>
+            <div class="class-grid" id="fees-class-grid"></div>
           </div>
-          <div id="custom-student-preview"></div>
+          <div id="fees-class-view" style="display:none;">
+            <button class="btn-section-back" onclick="showFeesSummaryView()">← Back to Overview</button>
+            <div class="section-heading" id="fees-class-heading">Select Term</div>
+            <div class="dl-btn-row">
+              <button class="btn-dl-pdf green" onclick="downloadFeesClassPDF()">📄 Download This Class Fees PDF</button>
+            </div>
+            <div class="term-selector-row">
+              <button class="btn-term-select" onclick="loadClassFeesData(currentFeesClass,'First Term',this)">📗 First Term</button>
+              <button class="btn-term-select" onclick="loadClassFeesData(currentFeesClass,'Second Term',this)">📘 Second Term</button>
+              <button class="btn-term-select" onclick="loadClassFeesData(currentFeesClass,'Third Term',this)">📙 Third Term</button>
+            </div>
+            <div class="fees-stats-row" id="fees-stats-row">
+              <div class="fees-stat-card"><div class="fees-stat-label">Total Students</div><div class="fees-stat-value" id="fees-stat-total">—</div><div class="fees-stat-sub">Enrolled</div></div>
+              <div class="fees-stat-card"><div class="fees-stat-label">Paid</div><div class="fees-stat-value" style="color:#22c55e;" id="fees-stat-paid">—</div><div class="fees-stat-sub">Fully paid</div></div>
+              <div class="fees-stat-card"><div class="fees-stat-label">Outstanding</div><div class="fees-stat-value" style="color:#ef4444;" id="fees-stat-outstanding">—</div><div class="fees-stat-sub">Not cleared</div></div>
+            </div>
+            <div class="fees-stats-row" style="margin-top:-4px;" id="fees-amount-row">
+              <div class="fees-stat-card"><div class="fees-stat-label">Amount Collected</div><div class="fees-stat-value" style="color:#22c55e;" id="fees-stat-collected">—</div><div class="fees-stat-sub">This term</div></div>
+              <div class="fees-stat-card"><div class="fees-stat-label">Outstanding Amount</div><div class="fees-stat-value" style="color:#ef4444;" id="fees-stat-owed">—</div><div class="fees-stat-sub">This term</div></div>
+              <div class="fees-stat-card"><div class="fees-stat-label">Collection Rate</div><div class="fees-stat-value" id="fees-stat-rate">—</div><div class="fees-stat-sub">Percent</div></div>
+            </div>
+            <div id="fees-class-loading" class="loading-bar"><div class="spinner"></div><span>Loading fees data…</span></div>
+            <div style="overflow-x:auto;">
+              <table class="fees-student-table" id="fees-student-table">
+                <thead><tr><th>#</th><th>Student Name</th><th>Admission No</th><th>Expected Fee</th><th>Amount Paid</th><th>Status</th></tr></thead>
+                <tbody id="fees-student-tbody">
+                  <tr><td colspan="6" style="color:var(--dash-muted);text-align:center;font-size:12px;">Select a term above to load</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- PANEL 3: Teacher Award -->
-        <div id="award-teacher" class="award-panel" style="display:none;">
-          <div style="background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
-            <div style="font-size:13px;font-weight:800;color:var(--dash-accent);margin-bottom:12px;">👨‍🏫 Teacher / Staff Award Certificate</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Teacher / Staff Full Name</label>
-                <input id="cust-tch-name" class="class-search-input" type="text" placeholder="e.g. Mal. Ibrahim Abubakar" style="width:100%;">
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Position / Role</label>
-                <input id="cust-tch-role" class="class-search-input" type="text" placeholder="e.g. Class Teacher, Head of Science" style="width:100%;">
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Section</label>
-                <select id="cust-tch-section" class="class-search-input" style="width:100%;">
-                  <option value="Nursery">Nursery</option>
-                  <option value="Primary">Primary</option>
-                  <option value="Junior Secondary" selected>Junior Secondary</option>
-                  <option value="Senior Secondary">Senior Secondary</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Award Title / Purpose</label>
-                <input id="cust-tch-award" class="class-search-input" type="text" placeholder="e.g. Best Teacher of the Year" style="width:100%;">
-              </div>
-            </div>
-            <div style="margin-bottom:12px;">
-              <label style="font-size:11px;font-weight:800;color:var(--dash-muted);display:block;margin-bottom:4px;">Citation / Description (optional)</label>
-              <input id="cust-tch-desc" class="class-search-input" type="text" placeholder="e.g. In recognition of exceptional dedication to teaching and student development" style="width:100%;">
-            </div>
-            <button class="btn-export-pdf" onclick="generateTeacherCert()" style="background:linear-gradient(135deg,#1d4ed8,#1e40af);margin-bottom:0;">
-              📄 Generate &amp; Download PDF
-            </button>
+        <!-- ── PROGRESS TAB ── -->
+        <div id="tab-progress" class="tab-panel">
+          <div class="section-heading">Performance Progress Tracker</div>
+          <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">Track how many students have CA and Exam scores filled per class. Click a class to load.</p>
+          <div id="progress-loading" class="loading-bar"><div class="spinner"></div><span>Calculating progress…</span></div>
+          <div class="summary-school-block" id="progress-school-summary" style="display:none;">
+            <div class="summary-school-title">📊 School-Wide Summary</div>
+            <div class="progress-tracker-grid" id="progress-school-grid"></div>
           </div>
-          <div id="teacher-cert-preview"></div>
+          <div id="progress-class-list"></div>
+          <button class="btn-export-pdf" onclick="loadAllClassProgress()" style="margin-top:4px;">🔄 Load Progress for All Classes</button>
         </div>
 
+        <!-- ── ANALYTICS TAB ── -->
+        <div id="tab-analytics" class="tab-panel">
+          <div class="section-heading">📈 Advanced Analytics</div>
+          <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">School-wide performance statistics, term comparisons, and intelligent insights.</p>
+          <div id="analytics-loading" class="loading-bar"><div class="spinner"></div><span>Computing analytics…</span></div>
+          <div class="dl-btn-row" style="margin-bottom:16px;">
+            <button class="btn-export-pdf" onclick="loadAllAnalytics()">🔄 Load All Analytics</button>
+            <button class="btn-dl-pdf" onclick="downloadAnalyticsPDF()" style="margin-left:8px;">📄 Export Analytics PDF</button>
+            <button class="btn-dl-pdf green" onclick="downloadAnalyticsWord()" style="margin-left:8px;">📝 Export Analytics Word</button>
+          </div>
+          <div id="analytics-overview-section" style="display:none;">
+            <div class="section-heading" style="font-size:13px;">A. Student Performance Overview</div>
+            <div class="analytics-perf-grid" id="analytics-perf-grid"></div>
+          </div>
+          <div id="analytics-term-section" style="display:none;">
+            <div class="section-heading" style="font-size:13px;margin-top:4px;">B. Term Comparison Analytics</div>
+            <div style="overflow-x:auto;margin-bottom:16px;">
+              <table class="salary-table" id="analytics-term-table" style="width:100%;min-width:400px;">
+                <thead><tr><th>Class</th><th>1st Term Avg</th><th>2nd Term Avg</th><th>3rd Term Avg</th><th>Trend</th></tr></thead>
+                <tbody id="analytics-term-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="analytics-insights-section" style="display:none;">
+            <div class="section-heading" style="font-size:13px;margin-top:4px;">C. Performance Trend Summary</div>
+            <div id="analytics-insights-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
+          </div>
+          <div id="analytics-charts-section" style="display:none;">
+            <div class="analytics-charts-row">
+              <div class="analytics-chart-card">
+                <div class="analytics-chart-title">📊 Class Average Scores</div>
+                <div class="chart-canvas-wrap"><canvas id="chart-bar-avg" class="pa-chart"></canvas></div>
+              </div>
+              <div class="analytics-chart-card">
+                <div class="analytics-chart-title">🥧 Pass / Fail Distribution</div>
+                <div class="chart-canvas-wrap"><canvas id="chart-pie-pass" class="pa-chart"></canvas></div>
+              </div>
+            </div>
+            <div class="edu-chart-card">
+              <div class="analytics-chart-title">🎓 Gender Distribution Per Class</div>
+              <div class="chart-canvas-wrap" style="min-height:180px;"><canvas id="chart-edu-gender" class="pa-chart" style="max-height:180px;"></canvas></div>
+              <div class="edu-chart-legend" id="edu-chart-legend">
+                <div class="edu-legend-item"><div class="edu-legend-dot" style="background:#3b82f6;"></div>Male</div>
+                <div class="edu-legend-item"><div class="edu-legend-dot" style="background:#ec4899;"></div>Female</div>
+              </div>
+            </div>
+          </div>
+          <div id="analytics-cards"></div>
+        </div>
+
+        <!-- ── WEBSITES TAB ── -->
+        <div id="tab-websites" class="tab-panel">
+          <div class="section-heading">School Websites Manager</div>
+          <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">Manage school website credentials. Data is fetched from the Websites Google Sheet CSV. Add websites by editing the <code style="background:var(--dash-card);padding:2px 5px;border-radius:4px;color:var(--dash-accent);">SCHOOL_WEBSITES</code> array in the config section.</p>
+          <div id="websites-loading" class="loading-bar"><div class="spinner"></div><span>Loading websites…</span></div>
+          <div id="websites-list"></div>
+        </div>
+
+        <!-- ── AWARDS TAB ── -->
+        <div id="tab-awards" class="tab-panel">
+          <div class="section-heading">🏆 Awards &amp; Certificates</div>
+          <div class="award-tabs" id="award-tab-nav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+            <button class="btn-export-pdf dash-tab active" id="awdtab-student-best" style="margin-bottom:0;" onclick="switchAwardTab('award-student-best')">🏅 Best Student Awards</button>
+            <button class="btn-export-pdf dash-tab" id="awdtab-student-custom" style="margin-bottom:0;background:linear-gradient(135deg,#228B2A,#16a34a);" onclick="switchAwardTab('award-student-custom')">🎖️ Custom Student Award</button>
+            <button class="btn-export-pdf dash-tab" id="awdtab-teacher" style="margin-bottom:0;background:linear-gradient(135deg,#1d4ed8,#1e40af);" onclick="switchAwardTab('award-teacher')">📋 Teacher Certificate</button>
+          </div>
+          <div id="award-student-best" class="award-panel" style="display:block;">
+            <div class="section-heading">Best Student Certificates (All Sections)</div>
+            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:12px;">First go to <strong>Analytics → Load All Analytics</strong>, then click Generate to auto-produce certificates for all 4 sections.</p>
+            <button class="btn-export-pdf" onclick="generateBestStudentCertificates()">🏆 Generate Best Student Certificates</button>
+            <div id="best-student-certs-preview" style="margin-top:16px;"></div>
+          </div>
+          <div id="award-student-custom" class="award-panel" style="display:none;">
+            <div class="section-heading">Custom Student Certificate</div>
+            <div style="display:flex;flex-direction:column;gap:10px;max-width:480px;margin-bottom:16px;">
+              <div><label class="form-label">Student Name</label><input id="cust-stu-name" class="form-input" type="text" placeholder="e.g. Amina Hassan"></div>
+              <div><label class="form-label">Class</label><input id="cust-stu-class" class="form-input" type="text" placeholder="e.g. JSS 2A"></div>
+              <div><label class="form-label">Section</label><select id="cust-stu-section" class="form-input"><option>Nursery</option><option>Primary</option><option selected>Junior Secondary</option><option>Senior Secondary</option></select></div>
+              <div><label class="form-label">Award Purpose</label><input id="cust-stu-award" class="form-input" type="text" placeholder="e.g. Best in Mathematics"></div>
+              <div><label class="form-label">Description (optional)</label><textarea id="cust-stu-desc" class="form-input" rows="2" placeholder="In recognition of…" style="resize:vertical;"></textarea></div>
+              <button class="btn-export-pdf" style="margin-bottom:0;" onclick="generateCustomStudentCert()">🎖️ Generate Certificate</button>
+            </div>
+            <div id="custom-student-preview"></div>
+          </div>
+          <div id="award-teacher" class="award-panel" style="display:none;">
+            <div class="section-heading">Teacher Award Certificate</div>
+            <div style="display:flex;flex-direction:column;gap:10px;max-width:480px;margin-bottom:16px;">
+              <div><label class="form-label">Teacher Name</label><input id="cust-tch-name" class="form-input" type="text" placeholder="e.g. Mal. Ibrahim Abubakar"></div>
+              <div><label class="form-label">Role / Position</label><input id="cust-tch-role" class="form-input" type="text" placeholder="e.g. Mathematics Teacher"></div>
+              <div><label class="form-label">Section</label><select id="cust-tch-section" class="form-input"><option>Nursery</option><option>Primary</option><option selected>Junior Secondary</option><option>Senior Secondary</option></select></div>
+              <div><label class="form-label">Award Title</label><input id="cust-tch-award" class="form-input" type="text" placeholder="e.g. Best Teacher Award"></div>
+              <div><label class="form-label">Citation (optional)</label><textarea id="cust-tch-desc" class="form-input" rows="2" placeholder="In recognition of…" style="resize:vertical;"></textarea></div>
+              <button class="btn-export-pdf" style="margin-bottom:0;background:linear-gradient(135deg,#1d4ed8,#1e40af);" onclick="generateTeacherCert()">📋 Generate Teacher Certificate</button>
+            </div>
+            <div id="teacher-cert-preview"></div>
+          </div>
+        </div>
+
+        <!-- ── GUIDE TAB ── -->
+        <div id="tab-guide" class="tab-panel">
+          <div class="section-heading">📖 System Guide</div>
+          <div id="guide-content">
+            <div class="guide-section"><h3>🔧 Quick Setup</h3>
+              <div class="guide-step"><h4>Step 1: Set Your School Details</h4><p>Find the <code>SCHOOL_CONFIG</code> object at the top of the JavaScript section. Edit <code>name</code>, <code>motto</code>, <code>address</code>, <code>session</code>, and logo URLs to match your school.</p></div>
+              <div class="guide-step"><h4>Step 2: Connect Your Google Sheets</h4><p>Find the <code>CLASS_LINKS</code> object. For each class, paste your published Google Sheet CSV URLs for <code>first</code>, <code>second</code>, and <code>third</code> terms.</p></div>
+              <div class="guide-step"><h4>Step 3: Set Login Credentials</h4><p>Find <code>CREDENTIALS</code> and change <code>admin.username</code>, <code>admin.password</code>, and <code>student.password</code> to your preferred values.</p></div>
+            </div>
+            <div class="guide-section"><h3>📊 Google Sheet Format</h3>
+              <div class="guide-step"><h4>Required Columns</h4><p>Your sheet needs: <code>Name</code>, <code>Admission No</code>, <code>Gender</code>, <code>Class Type</code>, <code>Class Section</code>, <code>Term</code>. Subject columns follow the pattern: <code>SubjectName_CA1</code>, <code>SubjectName_CA2</code>, <code>SubjectName_Exams</code>.</p></div>
+              <div class="guide-step"><h4>Publish as CSV</h4><p>In Google Sheets: File → Share → Publish to web → Select sheet → CSV → Publish. Copy the URL and paste into <code>CLASS_LINKS</code>.</p></div>
+            </div>
+            <div class="guide-section"><h3>🎨 Customization</h3>
+              <div class="guide-step"><h4>Class-Specific Report Card Colors</h4><p>Find the section labeled "REPORT CARD — CLASS-SPECIFIC COLOURS". Each class category (nursery, jss, ss) can have its own color theme.</p></div>
+              <div class="guide-step"><h4>School Name, Motto, Address</h4><p>Find the <code>SCHOOL_CONFIG</code> object and edit: <code>name</code>, <code>motto</code>, <code>address</code>, <code>session</code>, <code>resumption</code>.</p></div>
+            </div>
+            <div class="guide-section"><h3>👨‍🏫 Teachers Sheet Structure</h3>
+              <div class="guide-step"><h4>Required Column Headers (Teachers CSV)</h4>
+                <p>Your Teachers Google Sheet must use: <code>TeacherName</code>, <code>ClassCategory</code> (Nursery/Primary/Junior Secondary/Senior Secondary), <code>Subjects</code>, <code>ClassType</code>, <code>Qualification</code>, <code>Phone</code>, <code>Salary</code>, <code>Month1</code>, <code>Month2</code>, <code>Month3</code>.</p>
+              </div>
+            </div>
+            <div class="guide-section"><h3>🏆 Awards &amp; Certificates</h3>
+              <div class="guide-step"><h4>Best Student Awards (Automatic)</h4><p>Go to Analytics → Load All Analytics first. Then go to Awards → Best Student Award and click Generate. Certificates are produced automatically for all 4 sections.</p></div>
+              <div class="guide-step"><h4>Certificate Signatures</h4><p>Upload signature images to PostImage and paste direct links into <code>SCHOOL_CONFIG</code>: <code>headmasterSig</code>, <code>principalSig</code>, <code>primaryFormMasterSig</code>, <code>secondaryFormMasterSig</code>.</p></div>
+            </div>
+            <div class="guide-section"><h3>🌐 Deploying on Netlify</h3>
+              <div class="guide-step"><h4>Step-by-Step Deployment</h4>
+                <ul><li>Go to netlify.com and sign up / log in</li><li>Click "Add new site" → "Deploy manually"</li><li>Drag and drop your <code>index.html</code> file into the upload box</li><li>Netlify gives you a public URL immediately</li><li>To update: go to your site dashboard → Deploys → drag new file</li></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SETTINGS TAB ── -->
+        <div id="tab-settings" class="tab-panel">
+          <div class="section-heading">⚙️ Portal Settings</div>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <div class="settings-card-title">🎨 Appearance</div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Theme Mode</div><div class="settings-row-sub">Switch between dark and light</div></div>
+                <button class="btn-settings-action" onclick="toggleTheme()" id="settings-theme-btn">🌙 Dark Mode (Active)</button>
+              </div>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-title">🔒 Security</div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Admin PIN</div><div class="settings-row-sub">Required to access Teachers &amp; Fees sections</div></div>
+                <code style="font-size:12px;background:var(--dash-bg);padding:4px 10px;border-radius:6px;color:var(--dash-accent);border:1px solid var(--dash-border);">Change in SECURITY_PIN config</code>
+              </div>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-title">📊 Data Management</div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Clear Analytics Cache</div><div class="settings-row-sub">Force reload all class analytics data</div></div>
+                <button class="btn-settings-action" onclick="analyticsCache={};showToast('✅ Cache cleared.')">🗑 Clear Cache</button>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Export All Data</div><div class="settings-row-sub">Download analytics as Word document</div></div>
+                <button class="btn-settings-action" onclick="downloadAnalyticsWord()">📥 Export Word</button>
+              </div>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-title">ℹ️ System Info</div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Version</div><div class="settings-row-sub">Pariya Report Card System</div></div>
+                <span style="font-size:13px;font-weight:800;color:var(--dash-accent);">v3.1</span>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Designed By</div><div class="settings-row-sub">Full-stack developer</div></div>
+                <span style="font-size:13px;font-weight:800;color:var(--dash-accent);">Arabo Modibbo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end ad-content -->
+
+      <div class="copyright-footer">
+        © <span>2026 Pariya Academy</span>. All Rights Reserved. Designed by <span>Arabo Modibbo</span>
       </div>
-      <!-- END Awards Tab -->
-
-      <!-- START CUSTOM EDIT SECTION — Guide Tab -->
-      <div id="tab-guide" class="tab-panel">
-        <div class="section-heading">System Administrator Guide</div>
-        <button class="btn-export-pdf" onclick="exportGuidePDF()">📄 Export Guide as PDF</button>
-
-        <div id="guide-content">
-
-          <div class="guide-section">
-            <h3>📋 Google Sheet Column Structure</h3>
-            <div class="guide-step">
-              <h4>Required Column Names</h4>
-              <p>Your Google Sheet must contain these exact column headers:</p>
-              <ul>
-                <li><code>Name</code> — Student's full name</li>
-                <li><code>Admission No</code> — Unique admission number (used for student login)</li>
-                <li><code>Class Type</code> — e.g. "JSS 2", "Primary 3"</li>
-                <li><code>Class Category</code> — e.g. "Junior Secondary", "Primary", "Nursery", "Senior Secondary"</li>
-                <li><code>Class Section</code> — e.g. "A", "B" or blank</li>
-                <li><code>Gender</code> — "Male" or "Female"</li>
-                <li><code>Term</code> — "First Term", "Second Term", or "Third Term"</li>
-                <li><code>Session</code> — e.g. "2025/2026"</li>
-                <li><code>Total Term Days</code>, <code>Days Present</code>, <code>Days Absent</code></li>
-                <li><code>Resumption Date</code> — e.g. "12 Sept. 2026"</li>
-                <li><code>SubjectName_CA1</code>, <code>SubjectName_CA2</code>, <code>SubjectName_Exams</code> — For Primary/Nursery</li>
-                <li><code>SubjectName_CA1</code>, <code>SubjectName_CA2</code>, <code>SubjectName_CA3</code>, <code>SubjectName_Exams</code> — For JSS/SS</li>
-              </ul>
-            </div>
-            <div class="guide-step">
-              <h4>Subject Column Format</h4>
-              <p>Subject scores must follow this pattern: <code>Mathematics_CA1</code>, <code>Mathematics_CA2</code>, <code>Mathematics_Exams</code></p>
-              <p>The part before the underscore (<code>Mathematics</code>) becomes the subject name on the report card.</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>🔗 Publishing Google Sheet as CSV</h3>
-            <div class="guide-step">
-              <h4>How to Get CSV URL</h4>
-              <ul>
-                <li>Open your Google Sheet</li>
-                <li>Click <strong>File</strong> → <strong>Share</strong> → <strong>Publish to web</strong></li>
-                <li>Under "Link", choose the correct sheet tab</li>
-                <li>Change format from "Web page" to <strong>Comma-separated values (.csv)</strong></li>
-                <li>Click <strong>Publish</strong></li>
-                <li>Copy the link that appears — this is your CSV URL</li>
-              </ul>
-            </div>
-            <div class="guide-step">
-              <h4>Where to Paste CSV Links in Code</h4>
-              <p>Find the <code>CLASS_LINKS</code> object in the JavaScript section. Replace the placeholder URL for each class:</p>
-              <p><code>"JSS 2": "https://docs.google.com/spreadsheets/d/e/..."</code></p>
-              <p>Make sure the URL ends with <code>&output=csv</code></p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>⚙️ Editing Classes in Code</h3>
-            <div class="guide-step">
-              <h4>Add or Remove Classes</h4>
-              <p>Edit the <code>CLASS_LINKS</code> object to add or remove classes. Each key is the class name, each value is the CSV URL.</p>
-              <p>Also update <code>CLASS_META</code> with the icon and category for each class (nursery, primary, jss, ss).</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>🔐 Editing Credentials</h3>
-            <div class="guide-step">
-              <h4>Admin and Student Passwords</h4>
-              <p>Find the <code>CREDENTIALS</code> object in the JavaScript section:</p>
-              <p><code>admin: { username: "admin", password: "pas2017" }</code></p>
-              <p><code>student: { password: "student123" }</code></p>
-              <p>Change these values to your desired username/password. All students share the same password.</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>🎨 Editing Colors in Code</h3>
-            <div class="guide-step">
-              <h4>Dashboard Colors</h4>
-              <p>Find the <code>:root</code> CSS block at the top. Variables starting with <code>--dash-</code> control the dashboard colors. Do NOT change variables starting with <code>--primary</code>, <code>--soft</code>, <code>--accent</code>, <code>--muted</code>, <code>--border</code> — these control report card colors.</p>
-            </div>
-            <div class="guide-step">
-              <h4>Class-Specific Report Card Colors</h4>
-              <p>Find the section labeled "REPORT CARD — CLASS-SPECIFIC COLOURS". Each class category (nursery, jss, ss) can have its own color theme.</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>📝 Editing Report Card Text</h3>
-            <div class="guide-step">
-              <h4>School Name, Motto, Address</h4>
-              <p>Find the <code>SCHOOL_CONFIG</code> object and edit: <code>name</code>, <code>motto</code>, <code>address</code>, <code>session</code>, <code>resumption</code>.</p>
-            </div>
-            <div class="guide-step">
-              <h4>Authority Names and Signatures</h4>
-              <p>Edit <code>headmasterName</code>, <code>headmasterSig</code>, <code>principalName</code>, <code>principalSig</code>, <code>primaryFormMasterName</code>, <code>secondaryFormMasterName</code> in <code>SCHOOL_CONFIG</code>.</p>
-              <p>Signature images should be hosted on PostImage or similar and the direct link pasted here.</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>📚 How to Add Subjects</h3>
-            <div class="guide-step">
-              <h4>Subjects are Auto-Detected from Sheet</h4>
-              <p>You do NOT need to edit code to add subjects. Simply add new columns to your Google Sheet following the pattern: <code>SubjectName_CA1</code>, <code>SubjectName_CA2</code>, <code>SubjectName_Exams</code>.</p>
-              <p>The system automatically detects all subject columns and adds them to the report card.</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>🌐 Deploying on Netlify</h3>
-            <div class="guide-step">
-              <h4>Step-by-Step Deployment</h4>
-              <ul>
-                <li>Go to <strong>netlify.com</strong> and sign up / log in</li>
-                <li>Click <strong>"Add new site"</strong> → <strong>"Deploy manually"</strong></li>
-                <li>Drag and drop your <code>index.html</code> file (rename it to <code>index.html</code> if needed) into the upload box</li>
-                <li>Netlify will give you a public URL immediately</li>
-                <li>To update: go to your site dashboard → <strong>Deploys</strong> → drag new file</li>
-                <li>For a custom domain: go to <strong>Domain settings</strong> and follow the instructions</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>🌐 School Websites Manager</h3>
-            <div class="guide-step">
-              <h4>Adding Websites via Google Sheet</h4>
-              <p>Create a Google Sheet with columns: <code>Function</code>, <code>URL</code>, <code>Username</code>, <code>Password</code>.</p>
-              <p>Publish it as CSV and paste the link into the <code>WEBSITES_CSV_URL</code> variable in the config section.</p>
-              <p>Credentials are hidden by default — admin clicks "Show" to reveal them.</p>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>👨‍🏫 Teachers Sheet Structure</h3>
-            <div class="guide-step">
-              <h4>Required Column Headers (Teachers CSV)</h4>
-              <p>Your Teachers Google Sheet must use these exact column headers for the system to load teacher records correctly:</p>
-              <ul>
-                <li><code>TeacherName</code> — Full name of the teacher (e.g. "Mal. Ibrahim Abubakar")</li>
-                <li><code>ClassCategory</code> — Section the teacher belongs to. Accepted values: <code>Nursery</code>, <code>Primary</code>, <code>Junior Secondary</code>, <code>Senior Secondary</code>. Multiple sections can be separated by commas (e.g. <code>Primary, Junior Secondary</code>)</li>
-                <li><code>Subjects</code> — Subjects the teacher teaches (e.g. "Mathematics, English")</li>
-                <li><code>ClassType</code> — The specific class assigned (e.g. "JSS 2A", "Primary 3")</li>
-                <li><code>Qualification</code> — Academic qualification (e.g. "B.Ed Mathematics")</li>
-                <li><code>Phone</code> — Contact phone number</li>
-                <li><code>Salary</code> — Monthly salary figure (shown in teacher profile)</li>
-                <li><code>Month1</code>, <code>Month2</code>, <code>Month3</code> — Payment columns per term (First Term: Jan/Feb/Mar, etc.)</li>
-              </ul>
-            </div>
-            <div class="guide-step">
-              <h4>Alternative / Legacy Column Names Supported</h4>
-              <p>The system also recognises these variations if you already have a sheet with different headers:</p>
-              <ul>
-                <li><code>Teacher Name</code> (with space) instead of <code>TeacherName</code></li>
-                <li><code>Section</code> instead of <code>ClassCategory</code></li>
-                <li><code>Class Type</code> (with space) instead of <code>ClassType</code></li>
-                <li><code>Class Section</code> instead of <code>ClassSection</code></li>
-              </ul>
-            </div>
-            <div class="guide-step">
-              <h4>Section Abbreviations Accepted</h4>
-              <p>In the <code>ClassCategory</code> or <code>Section</code> column you may use single-letter abbreviations:</p>
-              <ul>
-                <li><code>n</code> → Nursery</li>
-                <li><code>p</code> → Primary</li>
-                <li><code>j</code> → Junior Secondary</li>
-                <li><code>s</code> → Senior Secondary</li>
-              </ul>
-            </div>
-            <div class="guide-step">
-              <h4>How to Publish the Teachers Sheet as CSV</h4>
-              <ul>
-                <li>Open your Teachers Google Sheet</li>
-                <li>Click <strong>File → Share → Publish to web</strong></li>
-                <li>Select the correct sheet tab and choose <strong>CSV</strong> format</li>
-                <li>Click <strong>Publish</strong> and copy the link</li>
-                <li>Paste the link into <code>TEACHERS_CSV_URL</code> in the JavaScript config section</li>
-              </ul>
-            </div>
-            <div class="guide-step">
-              <h4>Why Teachers Section Shows Empty</h4>
-              <p>If you open the Teachers section and see no teachers, check these common causes:</p>
-              <ul>
-                <li>The <code>TEACHERS_CSV_URL</code> is not set or is pointing to an unpublished sheet</li>
-                <li>The sheet uses different column headers than listed above</li>
-                <li>The <code>ClassCategory</code> or <code>Section</code> column values don't match the section you clicked</li>
-                <li>The sheet has not been published to web with CSV output</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="guide-section">
-            <h3>🏆 Awards &amp; Certificates</h3>
-            <div class="guide-step">
-              <h4>Best Student Awards (Automatic)</h4>
-              <p>Go to <strong>Analytics → Load All Analytics</strong> first. The system computes the annual average (all 3 terms) for every student in every class and identifies the best student in each section (Nursery, Primary, Junior Secondary, Senior Secondary). Then go to <strong>Awards → Best Student Award</strong> and click Generate — certificates are produced automatically for all 4 sections and can be downloaded as landscape PDF.</p>
-            </div>
-            <div class="guide-step">
-              <h4>Custom Student Award</h4>
-              <p>Fill in the student name, class, section, and award title/purpose manually, then click Generate. Use this for any special recognition (e.g. "Most Improved Student", "Best in Mathematics").</p>
-            </div>
-            <div class="guide-step">
-              <h4>Teacher Award</h4>
-              <p>Fill in the teacher's name, role, section, and award purpose. Click Generate to produce a landscape blue-themed staff certificate with the principal's and head teacher's signatures.</p>
-            </div>
-            <div class="guide-step">
-              <h4>Certificate Signatures</h4>
-              <p>Certificates use the authority signatures configured in <code>SCHOOL_CONFIG</code>: <code>headmasterSig</code> and <code>principalSig</code> for Nursery/Primary and Secondary sections respectively, and <code>primaryFormMasterSig</code> / <code>secondaryFormMasterSig</code> for form masters. Upload signature images to PostImage or similar and paste the direct links in SCHOOL_CONFIG.</p>
-            </div>
-          </div>
-
-        </div><!-- end guide-content -->
-      </div>
-      <!-- END CUSTOM EDIT SECTION — Guide Tab -->
-
-    </main>
-
-    <div class="copyright-footer">
-      © <span>2026 Pariya Academy</span>. All Rights Reserved. Designed by <span>Arabo Modibbo</span>
-    </div>
-  </div>
+    </div><!-- end ad-main -->
+  </div><!-- end ad-shell -->
 </div>
-
 <!-- ============================================================
      SCREEN 5: CLASS DETAILS PAGE (before report generation)
      START CUSTOM EDIT SECTION — Class Details Page
      ============================================================ -->
 <div id="screen-class-detail" class="screen">
-  <div class="dash-layout" style="flex:1;">
-    <nav class="dash-nav">
-      <div class="dash-nav-brand">
-        <img src="https://i.postimg.cc/VvMcYqbb/LOGO.png" alt="Logo" onerror="this.style.display='none'">
-        <span>Pariya Academy</span>
+  <div class="dash-layout" style="flex:1;background:var(--ad-bg);">
+    <nav class="ad-topbar" style="position:sticky;">
+      <div class="ad-topbar-left">
+        <div class="ad-sb-logo" style="width:30px;height:30px;">
+          <img src="https://i.postimg.cc/VvMcYqbb/LOGO.png" alt="Logo" onerror="this.parentElement.innerHTML='P'">
+        </div>
+        <div>
+          <div class="ad-page-eyebrow">Class Detail</div>
+          <div class="ad-page-title" id="detail-class-name-top">Pariya Academy</div>
+        </div>
       </div>
-      <div class="dash-nav-actions">
-        <div class="nav-user-chip"><div class="avatar">A</div>Admin</div>
-        <button class="btn-logout" onclick="logout()">Sign Out</button>
+      <div class="ad-topbar-right">
+        <div class="ad-topbar-avatar">A</div>
+        <button class="ad-icon-btn" onclick="logout()" title="Sign out" style="color:#ef4444;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
       </div>
     </nav>
 
-    <main class="dash-main">
-      <div class="class-detail-header">
-        <div class="class-detail-title" id="detail-class-name">Class Name</div>
-        <div class="class-detail-meta" id="detail-class-meta">Loading…</div>
+    <main class="dash-main" style="padding:22px 24px;">
+      <div class="ad-card" style="margin-bottom:16px;">
+        <div class="ad-card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+          <div>
+            <div class="class-detail-title" id="detail-class-name" style="font-family:var(--ad-font-serif);font-size:22px;color:var(--ad-ink);">Class Name</div>
+            <div class="class-detail-meta" id="detail-class-meta" style="font-size:12px;color:var(--ad-ink3);margin-top:2px;">Loading…</div>
+          </div>
+          <button class="btn-back-dash" onclick="showScreen('screen-admin-dash')" style="background:var(--ad-indigo-lt);color:var(--ad-indigo);border:1px solid var(--ad-indigo-md);">
+            <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+          </button>
+        </div>
       </div>
 
       <!-- Term selection inside class detail page -->
-      <div style="margin-bottom:12px;">
-        <div class="section-heading">Select Term for Report</div>
-        <div class="term-btn-row" id="detail-term-row">
-          <button class="btn-term-admin selected" onclick="selectDetailTerm('First Term', this)">📗 First Term</button>
-          <button class="btn-term-admin" onclick="selectDetailTerm('Second Term', this)">📘 Second Term</button>
-          <button class="btn-term-admin" onclick="selectDetailTerm('Third Term', this)">📙 Third Term</button>
+      <div class="ad-card" style="margin-bottom:16px;">
+        <div class="ad-card-header">
+          <div class="ad-card-title"><i class="fa-solid fa-calendar"></i> Select Term for Report</div>
+        </div>
+        <div class="ad-card-body">
+          <div class="term-btn-row" id="detail-term-row">
+            <button class="btn-term-admin selected" onclick="selectDetailTerm('First Term', this)">📗 First Term</button>
+            <button class="btn-term-admin" onclick="selectDetailTerm('Second Term', this)">📘 Second Term</button>
+            <button class="btn-term-admin" onclick="selectDetailTerm('Third Term', this)">📙 Third Term</button>
+          </div>
         </div>
       </div>
 
@@ -2536,30 +2794,33 @@ canvas.pa-chart {
         <span>Loading class data…</span>
       </div>
 
-      <!-- Toolbar with search and generate button -->
-      <div class="class-detail-toolbar">
-        <input type="text" class="class-search-input" id="detail-search" placeholder="🔍 Search student by name or admission…" oninput="filterDetailTable()">
-        <button class="btn-gen-all" onclick="generateFromDetail()">📋 Generate All Results</button>
-        <button class="btn-back-dash" onclick="showScreen('screen-admin-dash')">← Back</button>
-      </div>
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <div class="ad-card-title"><i class="fa-solid fa-users"></i> Student Roster</div>
+          <span style="font-size:12px;color:var(--ad-ink3);font-weight:500;">Showing <span id="detail-count">0</span> students</span>
+        </div>
+        <div class="ad-card-body">
+          <!-- Toolbar with search and generate button -->
+          <div class="class-detail-toolbar">
+            <input type="text" class="class-search-input" id="detail-search" placeholder="🔍 Search student by name or admission…" oninput="filterDetailTable()">
+            <button class="btn-gen-all" onclick="generateFromDetail()">📋 Generate All Results</button>
+          </div>
 
-      <div style="font-size:12px;color:var(--dash-muted);font-weight:700;margin-bottom:8px;">
-        Showing <span id="detail-count">0</span> students
-      </div>
-
-      <!-- Student list table -->
-      <div class="student-list-table-wrap">
-        <table class="student-list-table" id="detail-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Student Name</th>
-              <th>Admission No</th>
-              <th>Gender</th>
-            </tr>
-          </thead>
-          <tbody id="detail-tbody"></tbody>
-        </table>
+          <!-- Student list table -->
+          <div class="student-list-table-wrap">
+            <table class="student-list-table" id="detail-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Admission No</th>
+                  <th>Gender</th>
+                </tr>
+              </thead>
+              <tbody id="detail-tbody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
     </main>
@@ -2572,63 +2833,174 @@ canvas.pa-chart {
 <!-- END CUSTOM EDIT SECTION — Class Details Page -->
 
 <!-- ============================================================
-     SCREEN 6: STUDENT DASHBOARD
+     SCREEN 6: STUDENT DASHBOARD — REDESIGNED
      ============================================================ -->
 <div id="screen-student-dash" class="screen">
   <div class="student-dash">
-    <nav class="student-nav">
-      <span>🎓 Student Portal</span>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <button class="theme-toggle-btn" onclick="toggleTheme()" id="student-theme-btn" title="Toggle theme">🌙</button>
-        <button class="btn-logout" onclick="logout()">Sign Out</button>
-      </div>
-    </nav>
 
-    <!-- START CUSTOM EDIT SECTION — Student Term Selection Page -->
-    <!-- This is shown after login, before showing the report card -->
-    <div id="student-term-select" class="term-select-area">
-      <div class="student-welcome" style="padding:16px 0 12px;">
-        <h2 id="studentWelcomeName">Welcome!</h2>
-        <p id="studentWelcomeSub">Select a term to view your report card</p>
-      </div>
-      <div class="term-btn-grid">
-        <button class="btn-term" onclick="studentLoadTerm('First Term')">
-          <span class="term-icon">📗</span>
-          <span>First Term Result</span>
-        </button>
-        <button class="btn-term" onclick="studentLoadTerm('Second Term')">
-          <span class="term-icon">📘</span>
-          <span>Second Term Result</span>
-        </button>
-        <button class="btn-term" onclick="studentLoadTerm('Third Term')">
-          <span class="term-icon">📙</span>
-          <span>Third Term Result</span>
-        </button>
-      </div>
-    </div>
-    <!-- END CUSTOM EDIT SECTION — Student Term Selection Page -->
-
-    <!-- Report card area (hidden until term is selected) -->
-    <div id="student-report-panel" style="display:none;">
-      <div style="padding: 8px 16px 0; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <button class="btn-action btn-student-dl" style="flex:1;min-width:160px;margin-bottom:0;" onclick="studentDownloadCard()">📥 Download My Report Card</button>
-        <button class="btn-action" style="flex:1;min-width:120px;margin-bottom:0;background:var(--dash-card);border:1px solid var(--dash-border);color:var(--dash-muted);" onclick="showStudentTermSelect()">← Change Term</button>
-      </div>
-      <div class="student-card-area" style="padding:12px 16px;">
-        <div class="student-report-card">
-          <div id="studentReportArea"></div>
-          <div id="student-card-loading" class="loading-bar" style="margin-top:8px;">
-            <div class="spinner"></div>
-            <span>Loading report card…</span>
+    <!-- ── Student Sidebar ── -->
+    <aside class="sd-sidebar">
+      <div class="sd-sb-brand">
+        <div class="sd-sb-logo-row">
+          <div class="sd-sb-logo">
+            <img src="https://i.postimg.cc/VvMcYqbb/LOGO.png" alt="Logo" onerror="this.parentElement.innerHTML='P'">
+          </div>
+          <div>
+            <div class="sd-sb-school">Pariya Academy</div>
+            <div class="sd-sb-tagline">For Modern Science &amp; Quran</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="copyright-footer">
-      © <span>2026 Pariya Academy</span>. All Rights Reserved. Designed by <span>Arabo Modibbo</span>
-    </div>
-  </div>
+      <div class="sd-student-chip">
+        <div class="sd-avatar" id="sd-avatar-initials">S</div>
+        <div>
+          <div class="sd-stu-name" id="sd-sidebar-name">Student</div>
+          <div class="sd-stu-class" id="sd-sidebar-class">—</div>
+        </div>
+      </div>
+
+      <nav class="sd-nav">
+        <div class="sd-nav-label">Portal</div>
+        <button class="sd-nav-item sd-active" onclick="showStudentTermSelect()">
+          <i class="fa-solid fa-house"></i> Dashboard
+        </button>
+        <button class="sd-nav-item" onclick="if(document.querySelector('#studentReportArea .card')){}else{showToast('Select a term first.','error')}">
+          <i class="fa-solid fa-file-lines"></i> Report Card
+        </button>
+        <button class="sd-nav-item" onclick="showStudentTermSelect()">
+          <i class="fa-solid fa-calendar-days"></i> Select Term
+        </button>
+      </nav>
+
+      <div class="sd-bottom">
+        <button class="sd-logout-btn" onclick="logout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── Student Main ── -->
+    <div class="sd-main">
+
+      <!-- Topbar -->
+      <header class="sd-topbar">
+        <div class="sd-topbar-left">
+          <div class="sd-page-eyebrow">Student Portal</div>
+          <div class="sd-page-title">Dashboard</div>
+        </div>
+        <div class="sd-topbar-right">
+          <button class="sd-icon-btn" onclick="toggleTheme()" id="student-theme-btn" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button class="sd-icon-btn" onclick="logout()" title="Sign out" style="color:#ef4444;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+          <div class="sd-topbar-avatar" id="sd-topbar-initials">S</div>
+        </div>
+      </header>
+
+      <div class="sd-content">
+
+        <!-- START CUSTOM EDIT SECTION — Student Term Selection Page -->
+        <div id="student-term-select" class="term-select-area">
+
+          <!-- Hero band -->
+          <div class="sd-hero">
+            <div class="sd-hero-left">
+              <div class="sd-hero-greeting">Welcome back</div>
+              <div class="sd-hero-name" id="studentWelcomeName">Welcome!</div>
+              <div class="sd-hero-meta">
+                <span class="sd-hero-badge" id="studentWelcomeSub">Select a term to view your report card</span>
+              </div>
+            </div>
+            <div class="sd-hero-stats">
+              <div class="sd-hero-stat">
+                <div class="sd-hero-stat-num"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div class="sd-hero-stat-label">Pariya Academy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Term selection -->
+          <div class="sd-term-section-head">Select Term to View Result</div>
+          <div class="sd-term-grid">
+            <button class="btn-term" onclick="studentLoadTerm('First Term')">
+              <i class="fa-solid fa-book-bookmark"></i>
+              <span class="sd-term-lbl">First Term</span>
+              <span class="sd-term-sub">View Report Card</span>
+            </button>
+            <button class="btn-term" onclick="studentLoadTerm('Second Term')">
+              <i class="fa-solid fa-book-bookmark"></i>
+              <span class="sd-term-lbl">Second Term</span>
+              <span class="sd-term-sub">View Report Card</span>
+            </button>
+            <button class="btn-term" onclick="studentLoadTerm('Third Term')">
+              <i class="fa-solid fa-book-bookmark"></i>
+              <span class="sd-term-lbl">Third Term</span>
+              <span class="sd-term-sub">View Report Card</span>
+            </button>
+          </div>
+
+          <!-- Helpful info card -->
+          <div class="sd-card">
+            <div class="sd-card-header">
+              <div class="sd-card-title"><i class="fa-solid fa-circle-info"></i> How it works</div>
+            </div>
+            <div class="sd-card-body">
+              <div class="sd-subj-row">
+                <div class="sd-subj-icon sd-c-indigo"><i class="fa-solid fa-1"></i></div>
+                <div class="sd-subj-name" style="flex:1;">Select the term you want to view above</div>
+              </div>
+              <div class="sd-subj-row">
+                <div class="sd-subj-icon sd-c-emerald"><i class="fa-solid fa-2"></i></div>
+                <div class="sd-subj-name" style="flex:1;">Your report card will load with grades &amp; position</div>
+              </div>
+              <div class="sd-subj-row">
+                <div class="sd-subj-icon sd-c-gold"><i class="fa-solid fa-3"></i></div>
+                <div class="sd-subj-name" style="flex:1;">Download as PDF or print directly from the portal</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- END CUSTOM EDIT SECTION — Student Term Selection Page -->
+
+        <!-- Report card area (hidden until term is selected) -->
+        <div id="student-report-panel" style="display:none;">
+
+          <div class="sd-card" style="margin-bottom:18px;">
+            <div class="sd-card-body" style="padding-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <button class="btn-action btn-student-dl" style="flex:1;min-width:200px;margin-bottom:0;" onclick="studentDownloadCard()">
+                <i class="fa-solid fa-download"></i> Download My Report Card
+              </button>
+              <button class="btn-action" style="flex:1;min-width:160px;margin-bottom:0;background:var(--sd-ivory);border:1px solid var(--sd-ivory3);color:var(--sd-ink2);" onclick="showStudentTermSelect()">
+                <i class="fa-solid fa-arrow-left"></i> Change Term
+              </button>
+            </div>
+          </div>
+
+          <div class="sd-card">
+            <div class="sd-card-body" style="padding-top:18px;">
+              <div class="student-report-card">
+                <div id="studentReportArea"></div>
+                <div id="student-card-loading" class="loading-bar" style="margin-top:8px;">
+                  <div class="spinner"></div>
+                  <span>Loading report card…</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="sd-footer">
+          © 2026 Pariya Academy. All Rights Reserved. Designed by <strong style="color:var(--sd-ink2);">Arabo Modibbo</strong>
+        </div>
+
+      </div><!-- end sd-content -->
+    </div><!-- end sd-main -->
+  </div><!-- end student-dash -->
 </div>
 
 <!-- ============================================================
@@ -3071,6 +3443,7 @@ function studentLogin() {
       // Set up welcome screen
       $('studentWelcomeName').textContent = `Welcome, ${stu['Name']}!`;
       $('studentWelcomeSub').textContent  = `${cls} — Select a term to view your result`;
+      updateStudentSidebar(stu['Name'], cls);
 
       // Show term selection, hide report panel
       $('student-term-select').style.display = 'block';
@@ -3340,6 +3713,19 @@ async function countAllStudents() {
    START CUSTOM EDIT SECTION — Tab switching
    Purpose: Show/hide dashboard sections based on active tab
    ============================================================ */
+/* ── New student sidebar UI helper: populate name/class/avatar ── */
+function updateStudentSidebar(name, cls) {
+  const initials = (name || 'S').trim().split(/\s+/).map(w => w[0]).slice(0,2).join('').toUpperCase() || 'S';
+  const nameEl = $('sd-sidebar-name');
+  const classEl = $('sd-sidebar-class');
+  const avEl = $('sd-avatar-initials');
+  const topAvEl = $('sd-topbar-initials');
+  if (nameEl) nameEl.textContent = name || 'Student';
+  if (classEl) classEl.textContent = cls || '—';
+  if (avEl) avEl.textContent = initials;
+  if (topAvEl) topAvEl.textContent = initials;
+}
+
 function switchTab(tabId) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
@@ -3351,6 +3737,16 @@ function switchTab(tabId) {
       t.classList.add('active');
     }
   });
+}
+
+/* ── New admin UI helpers: sidebar + tab-bar active state ── */
+function setAdActive(el) {
+  document.querySelectorAll('.ad-sb-item').forEach(b => b.classList.remove('ad-active'));
+  if (el) el.classList.add('ad-active');
+}
+function setAdTab(el) {
+  document.querySelectorAll('.ad-tab-btn').forEach(b => b.classList.remove('ad-tab-active'));
+  if (el) el.classList.add('ad-tab-active');
 }
 /* END CUSTOM EDIT SECTION */
 
@@ -3371,6 +3767,7 @@ function openClassDetail(className) {
 
   $('detail-class-name').textContent = className;
   $('detail-class-meta').textContent = 'Loading student list…';
+  if ($('detail-class-name-top')) $('detail-class-name-top').textContent = className;
   $('detail-tbody').innerHTML = '';
   $('detail-count').textContent = '0';
   $('detail-search').value = '';
@@ -5782,6 +6179,7 @@ window.feesBlockedChangeTerm = feesBlockedChangeTerm;
       studentLoginData = { allStudents: all, admissionNo: admission, className: cls };
       document.getElementById('studentWelcomeName').textContent = `Welcome, ${stu['Name']}!`;
       document.getElementById('studentWelcomeSub').textContent  = `${cls} — Select a term to view your result`;
+      updateStudentSidebar(stu['Name'], cls);
       document.getElementById('student-term-select').style.display = 'block';
       document.getElementById('student-report-panel').style.display = 'none';
       showScreen('screen-student-dash');
@@ -6455,6 +6853,7 @@ function smartLogin() {
     studentLoginData = { allStudents: all, admissionNo: username, className: classVal };
     document.getElementById('studentWelcomeName').textContent = `Welcome, ${stu['Name']}!`;
     document.getElementById('studentWelcomeSub').textContent  = `${classVal} — Select a term to view your result`;
+    updateStudentSidebar(stu['Name'], classVal);
     document.getElementById('student-term-select').style.display = 'block';
     document.getElementById('student-report-panel').style.display = 'none';
     showScreen('screen-student-dash');
