@@ -555,6 +555,7 @@ body {
   animation:spin 0.8s linear infinite; flex-shrink:0;
 }
 @keyframes spin { to { transform:rotate(360deg); } }
+@keyframes bounce-icon { from { transform: translateY(0); } to { transform: translateY(-8px); } }
 
 /* Report wrapper */
 .report-wrapper { background:#f6fff6; border-radius:var(--radius); padding:14px; margin-top:6px; }
@@ -1852,10 +1853,7 @@ canvas.pa-chart {
 
 /* ── Hidden PDF letter template (rendered off-screen for html2pdf) ── */
 #pdf-letter-template {
-  position: absolute; left: -9999px; top: 0;
-  width: 794px; background: #fff; color: #222;
-  font-family: 'Inter', system-ui, sans-serif; font-size: 13px;
-  padding: 30px 36px 30px;
+  display: none;
 }
 .pdf-letter-header {
   display: flex; align-items: center; gap: 16px;
@@ -2444,70 +2442,7 @@ canvas.pa-chart {
 
         <!-- ── TEACHERS TAB ── -->
         <div id="tab-teachers" class="tab-panel">
-          <!-- Static Full Teacher List Panel -->
-          <div id="teachers-master-panel">
-            <div class="section-heading">👨‍🏫 All School Teachers</div>
-            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">Full staff register — Nursery to Senior Secondary. Tick Month 1, 2, 3 columns for salary payment status, then download.</p>
-
-            <!-- Group download buttons -->
-            <div class="dl-btn-row" style="margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-              <button class="btn-dl-pdf" onclick="downloadAllTeachersMasterPDF('all')" style="background:linear-gradient(135deg,#228B2A,#16a34a);">📄 Download All Teachers PDF</button>
-              <button class="btn-dl-pdf" onclick="downloadAllTeachersMasterPDF('nursery-primary')" style="background:linear-gradient(135deg,#d97706,#b45309);">🌱📚 Primary/Nursery Teachers PDF</button>
-              <button class="btn-dl-pdf" onclick="downloadAllTeachersMasterPDF('secondary')" style="background:linear-gradient(135deg,#1d4ed8,#1e40af);">🎓 All Secondary Teachers PDF</button>
-            </div>
-
-            <!-- Nursery Section -->
-            <div style="margin-bottom:24px;">
-              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fbbf24;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🌱 Nursery Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
-              <div style="overflow-x:auto;">
-                <table class="salary-table" id="tbl-nursery" style="width:100%;min-width:440px;">
-                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
-                  <tbody id="tbody-nursery"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Primary Section -->
-            <div style="margin-bottom:24px;">
-              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#60a5fa;margin-bottom:8px;display:flex;align-items:center;gap:8px;">📚 Primary Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
-              <div style="overflow-x:auto;">
-                <table class="salary-table" id="tbl-primary" style="width:100%;min-width:440px;">
-                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
-                  <tbody id="tbody-primary"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Junior Secondary Section -->
-            <div style="margin-bottom:24px;">
-              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#c084fc;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🔬 Junior Secondary Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
-              <div style="overflow-x:auto;">
-                <table class="salary-table" id="tbl-jss" style="width:100%;min-width:440px;">
-                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
-                  <tbody id="tbody-jss"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Senior Secondary Section -->
-            <div style="margin-bottom:24px;">
-              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4ade80;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🎓 Senior Secondary Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
-              <div style="overflow-x:auto;">
-                <table class="salary-table" id="tbl-ss" style="width:100%;min-width:440px;">
-                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
-                  <tbody id="tbody-ss"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <div id="teachers-loading" class="loading-bar">
-              <div class="spinner"></div>
-              <span>Loading teachers data…</span>
-            </div>
-          </div>
-
-          <!-- Legacy section views (kept for profile system) -->
-          <div id="teachers-section-picker" style="display:none;">
+          <div id="teachers-section-picker">
             <div class="section-heading">Select Section</div>
             <div class="section-cards-grid">
               <div class="section-big-card sec-nursery" onclick="loadTeachersBySection('Nursery')">
@@ -2531,6 +2466,13 @@ canvas.pa-chart {
                 <div class="section-big-card-sub">SS Teachers</div>
               </div>
             </div>
+            <div id="teachers-loading" class="loading-bar">
+              <div class="spinner"></div>
+              <span>Loading teachers data…</span>
+            </div>
+            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;">
+              Configure <code style="font-size:11px;background:var(--dash-bg);padding:1px 5px;border-radius:4px;color:var(--dash-accent);">TEACHERS_CSV_URL</code> in the config to load live teacher data.
+            </p>
           </div>
           <div id="teachers-list-view" style="display:none;">
             <button class="btn-section-back" onclick="showTeachersSectionPicker()">← Back to Sections</button>
@@ -2608,7 +2550,18 @@ canvas.pa-chart {
         <!-- ── PROGRESS TAB ── -->
         <div id="tab-progress" class="tab-panel">
           <div class="section-heading">Performance Progress Tracker</div>
-          <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">Track how many students have CA and Exam scores filled per class. Click a class to load.</p>
+          <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">Track how many students have CA and Exam scores filled per class. Select a term, then load progress.</p>
+
+          <!-- Term Selection -->
+          <div style="margin-bottom:18px;">
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--dash-muted);margin-bottom:8px;">Select Term</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn-term-select progress-term-btn active" id="prog-term-first" onclick="selectProgressTerm('First Term',this)">📗 First Term</button>
+              <button class="btn-term-select progress-term-btn" id="prog-term-second" onclick="selectProgressTerm('Second Term',this)">📘 Second Term</button>
+              <button class="btn-term-select progress-term-btn" id="prog-term-third" onclick="selectProgressTerm('Third Term',this)">📙 Third Term</button>
+            </div>
+          </div>
+
           <div id="progress-loading" class="loading-bar"><div class="spinner"></div><span>Calculating progress…</span></div>
           <div class="summary-school-block" id="progress-school-summary" style="display:none;">
             <div class="summary-school-title">📊 School-Wide Summary</div>
@@ -3076,6 +3029,27 @@ canvas.pa-chart {
 
         </div>
         <!-- END CUSTOM EDIT SECTION — Student Term Selection Page -->
+
+        <!-- ── STUDENT AWARD / CERTIFICATE SECTION ── -->
+        <div class="sd-card" id="sd-award-section" style="margin-top:18px;">
+          <div class="sd-card-header">
+            <div class="sd-card-title"><i class="fa-solid fa-trophy" style="color:#f59e0b;"></i> My Awards &amp; Certificates</div>
+          </div>
+          <div class="sd-card-body">
+            <div id="sd-award-loading" style="display:none;text-align:center;padding:16px 0;">
+              <div class="spinner" style="margin:0 auto 8px;"></div>
+              <div style="font-size:12px;color:var(--sd-ink3);font-weight:600;">Checking awards…</div>
+            </div>
+            <div id="sd-award-content">
+              <div style="text-align:center;padding:20px 0;">
+                <div style="font-size:42px;margin-bottom:8px;">🏅</div>
+                <div style="font-size:13px;font-weight:800;color:var(--sd-ink2);margin-bottom:4px;">No award data yet</div>
+                <div style="font-size:12px;color:var(--sd-ink3);font-weight:600;">Select a term and load your report card to check if you have been awarded Best Student of the Year.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END STUDENT AWARD SECTION -->
 
         <!-- Report card area (hidden until term is selected) -->
         <div id="student-report-panel" style="display:none;">
@@ -3711,6 +3685,7 @@ function studentLoadTerm(term) {
       });
 
       showToast(`✅ ${term} result loaded! Position calculated from ${totalStudents} students.`);
+      checkStudentAward(stuRecord, allStudentsInSheet, term);
     })
     .catch(() => {
       loader.classList.remove('visible');
@@ -3725,7 +3700,81 @@ function showStudentTermSelect() {
   $('student-report-panel').style.display = 'none';
   $('student-term-select').style.display = 'block';
 }
-/* END CUSTOM EDIT SECTION — Term-specific result loading */
+
+/* ============================================================
+   STUDENT AWARD CHECK
+   Checks if the logged-in student is the top-performing student
+   in their class/section for the loaded term.
+   ============================================================ */
+function checkStudentAward(stuRecord, allStudents, term) {
+  const awardEl = $('sd-award-content');
+  if (!awardEl) return;
+
+  // Calculate average score for a student record
+  function calcStudentAvg(rec) {
+    const headers = Object.keys(rec);
+    const caKeys   = headers.filter(h => h.includes('_CA'));
+    const exKeys   = headers.filter(h => h.includes('_Exams'));
+    let total = 0, count = 0;
+    [...caKeys, ...exKeys].forEach(k => {
+      const v = parseFloat(rec[k]);
+      if (!isNaN(v)) { total += v; count++; }
+    });
+    return count > 0 ? total / count : 0;
+  }
+
+  const myAdm     = (stuRecord['Admission No'] || '').trim().toLowerCase();
+  const myAvg     = calcStudentAvg(stuRecord);
+  const myName    = (stuRecord['Name'] || stuRecord['Student Name'] || 'You').trim();
+
+  // Find the class topper
+  let topAvg  = -1;
+  let topName = '';
+  let topAdm  = '';
+  allStudents.forEach(s => {
+    const avg = calcStudentAvg(s);
+    if (avg > topAvg) {
+      topAvg  = avg;
+      topName = (s['Name'] || s['Student Name'] || '').trim();
+      topAdm  = (s['Admission No'] || '').trim().toLowerCase();
+    }
+  });
+
+  const isAwardee = myAdm && topAdm && myAdm === topAdm;
+
+  if (isAwardee) {
+    awardEl.innerHTML = `
+      <div style="text-align:center;padding:20px 0 12px;">
+        <div style="font-size:56px;margin-bottom:8px;animation:bounce-icon .8s ease infinite alternate;">🏆</div>
+        <div style="font-size:16px;font-weight:900;color:var(--sd-indigo);margin-bottom:4px;">Congratulations, ${escapeHtml(myName)}!</div>
+        <div style="font-size:12px;color:var(--sd-ink2);font-weight:700;margin-bottom:10px;">
+          🥇 Best Performing Student — ${escapeHtml(term)}
+        </div>
+        <div style="display:inline-block;background:linear-gradient(135deg,#f59e0b22,#fbbf2422);border:1.5px solid #f59e0b55;border-radius:10px;padding:8px 18px;font-size:12px;font-weight:700;color:#b45309;margin-bottom:14px;">
+          Class Average: <strong style="font-size:14px;color:#92400e;">${myAvg.toFixed(1)}%</strong> — Highest in Class
+        </div>
+        <div style="font-size:11px;color:var(--sd-ink3);font-weight:600;margin-bottom:14px;">
+          You have been awarded the <strong>Best Student of the Year</strong> certificate for this term. Visit the Admin Awards section to download your certificate.
+        </div>
+      </div>`;
+  } else {
+    const diff = topAvg - myAvg;
+    awardEl.innerHTML = `
+      <div style="text-align:center;padding:20px 0 12px;">
+        <div style="font-size:42px;margin-bottom:8px;">📊</div>
+        <div style="font-size:13px;font-weight:800;color:var(--sd-ink2);margin-bottom:4px;">No Award This Term</div>
+        <div style="font-size:12px;color:var(--sd-ink3);font-weight:600;margin-bottom:10px;">
+          Your average: <strong style="color:var(--sd-indigo);">${myAvg.toFixed(1)}%</strong>
+          &nbsp;·&nbsp;
+          Class best: <strong style="color:#16a34a;">${topAvg.toFixed(1)}%</strong>
+        </div>
+        <div style="display:inline-block;background:var(--sd-ivory2, #f3f4f6);border-radius:8px;padding:7px 16px;font-size:11px;font-weight:700;color:var(--sd-ink3);">
+          You are <strong>${diff.toFixed(1)} points</strong> behind the class topper — keep it up! 💪
+        </div>
+      </div>`;
+  }
+}
+/* END STUDENT AWARD CHECK */
 
 /* ============================================================
    STUDENT DOWNLOAD CARD
@@ -4740,8 +4789,16 @@ function downloadSingleCard(buttonEl) {
     margin:      [6,6,6,6],
     filename,
     image:       { type:'jpeg', quality:0.98 },
-    html2canvas: { scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff' },
-    jsPDF:       { unit:'mm', format:'a4', orientation:'portrait' }
+    html2canvas: {
+      scale:           2,
+      useCORS:         true,
+      allowTaint:      true,
+      logging:         false,
+      backgroundColor: '#ffffff',
+      scrollX:         0,
+      scrollY:         0,
+    },
+    jsPDF: { unit:'mm', format:'a4', orientation:'portrait' }
   };
   return html2pdf().set(opt).from(card).save()
     .then(() => {
@@ -4921,6 +4978,17 @@ function progressCardHtml(label, filled, total) {
 }
 
 /* Load progress data for all classes */
+let currentProgressTerm = 'First Term';
+
+function selectProgressTerm(term, btn) {
+  currentProgressTerm = term;
+  document.querySelectorAll('.progress-term-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Reset results when term changes
+  document.getElementById('progress-class-list').innerHTML = '';
+  document.getElementById('progress-school-summary').style.display = 'none';
+}
+
 async function loadAllClassProgress() {
   const loader  = $('progress-loading');
   const listEl  = $('progress-class-list');
@@ -4935,7 +5003,7 @@ async function loadAllClassProgress() {
 
   for (const className of Object.keys(CLASS_LINKS)) {
     if (!classHasAnyUrl(className)) continue;
-    const url = getTermUrl(className, 'First Term');
+    const url = getTermUrl(className, currentProgressTerm);
     if (!url) continue;
     try {
       const csv     = await fetchCSV(url);
@@ -4974,7 +5042,7 @@ async function loadAllClassProgress() {
     summEl.style.display = 'block';
   }
 
-  showToast('✅ Progress loaded for all classes!');
+  showToast('✅ Progress loaded for ' + currentProgressTerm + '!');
 }
 /* END CUSTOM EDIT SECTION — Progress Tracker */
 
@@ -5344,15 +5412,23 @@ async function downloadAnalyticsPDF() {
   }
   showToast('\u23F3 Generating analytics PDF\u2026');
   try {
-    // Build a standalone div for PDF export
     const exportDiv = buildAnalyticsExportHTML('PDF');
     document.body.appendChild(exportDiv);
     const opt = {
-      margin:      [10,10,10,10],
+      margin:      [8, 8, 8, 8],
       filename:    'Pariya_Academy_Analytics.pdf',
-      image:       { type:'jpeg', quality:0.97 },
-      html2canvas: { scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff' },
-      jsPDF:       { unit:'mm', format:'a4', orientation:'portrait' }
+      image:       { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale:           2,
+        useCORS:         true,
+        allowTaint:      true,
+        logging:         false,
+        backgroundColor: '#ffffff',
+        scrollX:         0,
+        scrollY:         0,
+        windowWidth:     870,
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     await html2pdf().set(opt).from(exportDiv).save();
     document.body.removeChild(exportDiv);
@@ -5414,7 +5490,7 @@ function buildAnalyticsExportHTML(format) {
   ).join('');
 
   const div = document.createElement('div');
-  div.style.cssText = 'position:absolute;left:-9999px;top:0;width:750px;background:#fff;color:#222;font-family:Arial,sans-serif;font-size:12px;padding:30px;';
+  div.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:794px;background:#fff;color:#222;font-family:Arial,sans-serif;font-size:12px;padding:30px;opacity:0;pointer-events:none;';
   div.innerHTML =
     '<div style="text-align:center;border-bottom:3px solid #228B2A;padding-bottom:14px;margin-bottom:18px;">' +
       '<h1 style="color:#228B2A;font-size:20px;margin:0;">' + escapeHtml(SCHOOL_CONFIG.name) + '</h1>' +
@@ -5578,6 +5654,7 @@ window.logout                      = logout;
 window.studentDownloadCard         = studentDownloadCard;
 window.studentLoadTerm             = studentLoadTerm;
 window.showStudentTermSelect       = showStudentTermSelect;
+window.checkStudentAward           = checkStudentAward;
 window.populateStudentClasses      = populateStudentClasses;
 window.switchTab                   = switchTab;
 window.openClassDetail             = openClassDetail;
@@ -5585,6 +5662,7 @@ window.filterDetailTable           = filterDetailTable;
 window.selectDetailTerm            = selectDetailTerm;
 window.generateFromDetail          = generateFromDetail;
 window.loadAllClassProgress        = loadAllClassProgress;
+window.selectProgressTerm          = selectProgressTerm;
 window.loadAllAnalytics            = loadAllAnalytics;
 window.downloadAnalyticsPDF        = downloadAnalyticsPDF;
 window.downloadAnalyticsPDF        = downloadAnalyticsPDF;
@@ -5671,14 +5749,8 @@ function checkPin() {
     closePinModal();
     if (pinTarget === 'teachers') {
       switchTab('tab-teachers');
-      // Show the new master panel instead of section picker
-      const masterPanel = document.getElementById('teachers-master-panel');
-      if (masterPanel) masterPanel.style.display = '';
-      document.getElementById('teachers-section-picker').style.display = 'none';
-      document.getElementById('teachers-list-view').style.display = 'none';
-      document.getElementById('teachers-profile-view').style.display = 'none';
+      showTeachersSectionPicker();
       if (teachersData.length === 0) loadAllTeachers();
-      else renderMasterTeacherTables();
     } else if (pinTarget === 'fees') {
       switchTab('tab-fees');
       showFeesSummaryView();
@@ -5799,7 +5871,6 @@ async function loadAllTeachers() {
       showToast('⚠️ Teachers sheet loaded but appears empty. Check column headers.', 'error');
     } else {
       showToast('✅ ' + teachersData.length + ' teacher records loaded.');
-      renderMasterTeacherTables();
     }
   } catch (e) {
     showToast('⚠️ Could not load teachers data. Check the CSV URL or connection.', 'error');
@@ -5957,6 +6028,7 @@ async function downloadAllTeachersMasterPDF(filter) {
     const el = mountLetterTemplate(html);
     const filename = 'Pariya_Academy_Teachers_' + filter.replace(/-/g,'_') + '.pdf';
     await html2pdf().set(letterPdfOptions(filename)).from(el).save();
+    unmountLetterTemplate(el);
     showToast('✅ Teachers PDF downloaded!');
   } catch(e) {
     console.error(e);
@@ -6706,19 +6778,46 @@ function buildLetterPdfHtml(docTitle, docSub, tableHtml) {
 /** Common html2pdf options for letter PDFs */
 function letterPdfOptions(filename) {
   return {
-    margin:      [0, 0, 0, 0],
+    margin:      [8, 8, 8, 8],
     filename,
-    image:       { type: 'jpeg', quality: 0.97 },
-    html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
-    jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    image:       { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale:           2,
+      useCORS:         true,
+      allowTaint:      true,
+      logging:         false,
+      backgroundColor: '#ffffff',
+      scrollX:         0,
+      scrollY:         0,
+      windowWidth:     870,
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 }
 
-/** Render HTML into the hidden template div and return it */
+/**
+ * Render HTML into a temporary div that is visible to html2canvas
+ * (fixed top-left, zero opacity so the user does not see it).
+ * Returns the element; caller must call unmountLetterTemplate(el) after save().
+ */
 function mountLetterTemplate(html) {
-  const el = document.getElementById('pdf-letter-template');
+  const old = document.getElementById('pdf-render-mount');
+  if (old) document.body.removeChild(old);
+
+  const el = document.createElement('div');
+  el.id = 'pdf-render-mount';
+  el.style.cssText =
+    'position:fixed;top:0;left:0;z-index:-1;' +
+    'width:870px;background:#fff;color:#222;' +
+    'font-family:Inter,system-ui,Arial,sans-serif;font-size:13px;' +
+    'padding:30px 36px;opacity:0;pointer-events:none;';
   el.innerHTML = html;
+  document.body.appendChild(el);
   return el;
+}
+
+function unmountLetterTemplate(el) {
+  if (el && el.parentNode) el.parentNode.removeChild(el);
 }
 /* END CUSTOM EDIT SECTION — PDF Letter Header Builder */
 
@@ -6785,6 +6884,7 @@ async function downloadTeachersPDF() {
   try {
     const el = mountLetterTemplate(html);
     await html2pdf().set(letterPdfOptions(`Pariya_Academy_Teachers_${section.replace(/\s/g,'_')}.pdf`)).from(el).save();
+    unmountLetterTemplate(el);
     showToast('✅ Teachers PDF downloaded!');
   } catch(e) {
     console.error(e);
@@ -6845,6 +6945,7 @@ async function downloadFeesSummaryPDF() {
   try {
     const el = mountLetterTemplate(html);
     await html2pdf().set(letterPdfOptions('Pariya_Academy_Fees_Summary.pdf')).from(el).save();
+    unmountLetterTemplate(el);
     showToast('✅ Fees Summary PDF downloaded!');
   } catch(e) {
     console.error(e);
@@ -6944,6 +7045,7 @@ async function downloadFeesClassPDF() {
   try {
     const el = mountLetterTemplate(html);
     await html2pdf().set(letterPdfOptions(`Pariya_Academy_Fees_${className.replace(/\s/g,'_')}.pdf`)).from(el).save();
+    unmountLetterTemplate(el);
     showToast('✅ Class Fees PDF downloaded!');
   } catch(e) {
     console.error(e);
@@ -7436,8 +7538,16 @@ async function downloadCertPDF(certEl, filename) {
       margin:      [6,6,6,6],
       filename,
       image:       { type:'jpeg', quality:0.98 },
-      html2canvas: { scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff' },
-      jsPDF:       { unit:'mm', format:'a4', orientation:'landscape' }
+      html2canvas: {
+        scale:           2,
+        useCORS:         true,
+        allowTaint:      true,
+        logging:         false,
+        backgroundColor: '#ffffff',
+        scrollX:         0,
+        scrollY:         0,
+      },
+      jsPDF: { unit:'mm', format:'a4', orientation:'landscape' }
     };
     await html2pdf().set(opt).from(certEl).save();
     showToast('✅ Certificate downloaded!');
