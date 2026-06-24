@@ -6,8 +6,8 @@
 <title>Pariya Academy — Report Card System</title>
 
 <!-- ============================================================
-     PARIYA ACADEMY REPORT CARD SYSTEM  — Version 3.1
-     Changes in v3.1 (this version):
+     PARIYA ACADEMY REPORT CARD SYSTEM  — Version 3.2
+     Changes in v3.2 (this version):
        • CLASS_LINKS now has separate first/second/third CSV per class
        • Term buttons load ONLY the correct term CSV (no more shared data bug)
        • Student portal fetches fresh CSV per term (correct term data)
@@ -1783,6 +1783,13 @@ body {
   .fees-summary-table th, .fees-summary-table td,
   .fees-student-table th, .fees-student-table td { padding: 6px 7px; }
 }
+/* Master teacher table checkboxes */
+.tch-month-check {
+  width: 18px; height: 18px; cursor: pointer; accent-color: var(--dash-green);
+}
+.tch-check-cell { text-align: center; }
+.tch-check-cell.paid { background: rgba(34,197,94,0.12); }
+.tch-check-cell.unpaid { background: transparent; }
 /* END CUSTOM EDIT SECTION — Teachers & School Fees Styles */
 
 /* ============================================================
@@ -2351,7 +2358,7 @@ canvas.pa-chart {
               <div class="ad-stat-icon ad-c-purple"><i class="fa-solid fa-layer-group"></i></div>
               <span class="ad-stat-badge ad-c-purple">System</span>
             </div>
-            <div class="ad-stat-value" style="font-size:14px;padding-top:6px;">v3.1</div>
+            <div class="ad-stat-value" style="font-size:14px;padding-top:6px;">v3.2</div>
             <div class="ad-stat-label">Portal Version</div>
           </div>
         </div>
@@ -2437,7 +2444,70 @@ canvas.pa-chart {
 
         <!-- ── TEACHERS TAB ── -->
         <div id="tab-teachers" class="tab-panel">
-          <div id="teachers-section-picker">
+          <!-- Static Full Teacher List Panel -->
+          <div id="teachers-master-panel">
+            <div class="section-heading">👨‍🏫 All School Teachers</div>
+            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;margin-bottom:14px;">Full staff register — Nursery to Senior Secondary. Tick Month 1, 2, 3 columns for salary payment status, then download.</p>
+
+            <!-- Group download buttons -->
+            <div class="dl-btn-row" style="margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+              <button class="btn-dl-pdf" onclick="downloadAllTeachersMasterPDF('all')" style="background:linear-gradient(135deg,#228B2A,#16a34a);">📄 Download All Teachers PDF</button>
+              <button class="btn-dl-pdf" onclick="downloadAllTeachersMasterPDF('nursery-primary')" style="background:linear-gradient(135deg,#d97706,#b45309);">🌱📚 Primary/Nursery Teachers PDF</button>
+              <button class="btn-dl-pdf" onclick="downloadAllTeachersMasterPDF('secondary')" style="background:linear-gradient(135deg,#1d4ed8,#1e40af);">🎓 All Secondary Teachers PDF</button>
+            </div>
+
+            <!-- Nursery Section -->
+            <div style="margin-bottom:24px;">
+              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fbbf24;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🌱 Nursery Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
+              <div style="overflow-x:auto;">
+                <table class="salary-table" id="tbl-nursery" style="width:100%;min-width:440px;">
+                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
+                  <tbody id="tbody-nursery"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Primary Section -->
+            <div style="margin-bottom:24px;">
+              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#60a5fa;margin-bottom:8px;display:flex;align-items:center;gap:8px;">📚 Primary Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
+              <div style="overflow-x:auto;">
+                <table class="salary-table" id="tbl-primary" style="width:100%;min-width:440px;">
+                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
+                  <tbody id="tbody-primary"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Junior Secondary Section -->
+            <div style="margin-bottom:24px;">
+              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#c084fc;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🔬 Junior Secondary Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
+              <div style="overflow-x:auto;">
+                <table class="salary-table" id="tbl-jss" style="width:100%;min-width:440px;">
+                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
+                  <tbody id="tbody-jss"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Senior Secondary Section -->
+            <div style="margin-bottom:24px;">
+              <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4ade80;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🎓 Senior Secondary Section <span style="flex:1;height:1px;background:var(--ad-border);display:inline-block;"></span></div>
+              <div style="overflow-x:auto;">
+                <table class="salary-table" id="tbl-ss" style="width:100%;min-width:440px;">
+                  <thead><tr><th>#</th><th>Teacher Name</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
+                  <tbody id="tbody-ss"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="teachers-loading" class="loading-bar">
+              <div class="spinner"></div>
+              <span>Loading teachers data…</span>
+            </div>
+          </div>
+
+          <!-- Legacy section views (kept for profile system) -->
+          <div id="teachers-section-picker" style="display:none;">
             <div class="section-heading">Select Section</div>
             <div class="section-cards-grid">
               <div class="section-big-card sec-nursery" onclick="loadTeachersBySection('Nursery')">
@@ -2461,13 +2531,6 @@ canvas.pa-chart {
                 <div class="section-big-card-sub">SS Teachers</div>
               </div>
             </div>
-            <div id="teachers-loading" class="loading-bar">
-              <div class="spinner"></div>
-              <span>Loading teachers data…</span>
-            </div>
-            <p style="font-size:12px;color:var(--dash-muted);font-weight:600;">
-              Configure <code style="font-size:11px;background:var(--dash-bg);padding:1px 5px;border-radius:4px;color:var(--dash-accent);">TEACHERS_CSV_URL</code> in the config to load live teacher data.
-            </p>
           </div>
           <div id="teachers-list-view" style="display:none;">
             <button class="btn-section-back" onclick="showTeachersSectionPicker()">← Back to Sections</button>
@@ -2587,10 +2650,12 @@ canvas.pa-chart {
               <div class="analytics-chart-card">
                 <div class="analytics-chart-title">📊 Class Average Scores</div>
                 <div class="chart-canvas-wrap"><canvas id="chart-bar-avg" class="pa-chart"></canvas></div>
+                <p style="font-size:11px;color:var(--dash-muted);font-weight:600;margin-top:8px;line-height:1.5;padding:0 2px;">This bar chart compares the average total scores across all classes. Taller bars indicate stronger overall performance. Use this to identify high-performing and low-performing classes at a glance.</p>
               </div>
               <div class="analytics-chart-card">
                 <div class="analytics-chart-title">🥧 Pass / Fail Distribution</div>
                 <div class="chart-canvas-wrap"><canvas id="chart-pie-pass" class="pa-chart"></canvas></div>
+                <p style="font-size:11px;color:var(--dash-muted);font-weight:600;margin-top:8px;line-height:1.5;padding:0 2px;">This pie chart shows the school-wide ratio of students who passed versus those who did not. A larger green slice reflects a healthier academic outcome across the institution.</p>
               </div>
             </div>
             <div class="edu-chart-card">
@@ -2600,6 +2665,7 @@ canvas.pa-chart {
                 <div class="edu-legend-item"><div class="edu-legend-dot" style="background:#3b82f6;"></div>Male</div>
                 <div class="edu-legend-item"><div class="edu-legend-dot" style="background:#ec4899;"></div>Female</div>
               </div>
+              <p style="font-size:11px;color:var(--dash-muted);font-weight:600;margin-top:8px;line-height:1.5;padding:0 2px;">This grouped bar chart shows the male-to-female enrolment ratio for each class. It helps track gender balance and supports inclusive education planning across all school sections.</p>
             </div>
           </div>
           <div id="analytics-cards"></div>
@@ -2679,6 +2745,17 @@ canvas.pa-chart {
               <div class="guide-step"><h4>Best Student Awards (Automatic)</h4><p>Go to Analytics → Load All Analytics first. Then go to Awards → Best Student Award and click Generate. Certificates are produced automatically for all 4 sections.</p></div>
               <div class="guide-step"><h4>Certificate Signatures</h4><p>Upload signature images to PostImage and paste direct links into <code>SCHOOL_CONFIG</code>: <code>headmasterSig</code>, <code>principalSig</code>, <code>primaryFormMasterSig</code>, <code>secondaryFormMasterSig</code>.</p></div>
             </div>
+            <div class="guide-section"><h3>🔐 Student Term PIN Codes</h3>
+              <div class="guide-step"><h4>Term Lock PINs (Student Dashboard)</h4>
+                <p>Each term in the student result portal is locked with a 4-digit PIN. Share these with students or parents when a term is ready for viewing.</p>
+                <ul>
+                  <li>📘 <strong>First Term PIN:</strong> <code>4545</code></li>
+                  <li>📗 <strong>Second Term PIN:</strong> <code>8787</code></li>
+                  <li>📙 <strong>Third Term PIN:</strong> <code>9191</code></li>
+                </ul>
+                <p style="margin-top:6px;">To change these PINs, locate the <code>TERM_PINS</code> object in the JavaScript section near the bottom of the file.</p>
+              </div>
+            </div>
             <div class="guide-section"><h3>🌐 Deploying on Netlify</h3>
               <div class="guide-step"><h4>Step-by-Step Deployment</h4>
                 <ul><li>Go to netlify.com and sign up / log in</li><li>Click "Add new site" → "Deploy manually"</li><li>Drag and drop your <code>index.html</code> file into the upload box</li><li>Netlify gives you a public URL immediately</li><li>To update: go to your site dashboard → Deploys → drag new file</li></ul>
@@ -2720,7 +2797,7 @@ canvas.pa-chart {
               <div class="settings-card-title">ℹ️ System Info</div>
               <div class="settings-row">
                 <div><div class="settings-row-label">Version</div><div class="settings-row-sub">Pariya Report Card System</div></div>
-                <span style="font-size:13px;font-weight:800;color:var(--dash-accent);">v3.1</span>
+                <span style="font-size:13px;font-weight:800;color:var(--dash-accent);">v3.2</span>
               </div>
               <div class="settings-row">
                 <div><div class="settings-row-label">Designed By</div><div class="settings-row-sub">Full-stack developer</div></div>
@@ -2925,21 +3002,55 @@ canvas.pa-chart {
           <!-- Term selection -->
           <div class="sd-term-section-head">Select Term to View Result</div>
           <div class="sd-term-grid">
-            <button class="btn-term" onclick="studentLoadTerm('First Term')">
+            <button class="btn-term" onclick="requestTermPin('First Term')">
+              <i class="fa-solid fa-lock" style="font-size:10px;opacity:.7;"></i>
               <i class="fa-solid fa-book-bookmark"></i>
               <span class="sd-term-lbl">First Term</span>
-              <span class="sd-term-sub">View Report Card</span>
+              <span class="sd-term-sub">🔒 PIN Protected</span>
             </button>
-            <button class="btn-term" onclick="studentLoadTerm('Second Term')">
+            <button class="btn-term" onclick="requestTermPin('Second Term')">
+              <i class="fa-solid fa-lock" style="font-size:10px;opacity:.7;"></i>
               <i class="fa-solid fa-book-bookmark"></i>
               <span class="sd-term-lbl">Second Term</span>
-              <span class="sd-term-sub">View Report Card</span>
+              <span class="sd-term-sub">🔒 PIN Protected</span>
             </button>
-            <button class="btn-term" onclick="studentLoadTerm('Third Term')">
+            <button class="btn-term" onclick="requestTermPin('Third Term')">
+              <i class="fa-solid fa-lock" style="font-size:10px;opacity:.7;"></i>
               <i class="fa-solid fa-book-bookmark"></i>
               <span class="sd-term-lbl">Third Term</span>
-              <span class="sd-term-sub">View Report Card</span>
+              <span class="sd-term-sub">🔒 PIN Protected</span>
             </button>
+          </div>
+
+          <!-- Term PIN Modal -->
+          <div id="term-pin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;display:none;align-items:center;justify-content:center;">
+            <div style="background:var(--sd-ivory);border-radius:16px;padding:28px 24px;width:300px;max-width:92vw;box-shadow:0 24px 48px rgba(0,0,0,.4);text-align:center;">
+              <div style="font-size:20px;margin-bottom:4px;">🔒</div>
+              <div style="font-size:15px;font-weight:900;color:var(--sd-ink);margin-bottom:2px;" id="term-pin-title">First Term</div>
+              <div style="font-size:12px;color:var(--sd-ink3);font-weight:600;margin-bottom:16px;">Enter 4-digit PIN to unlock this term</div>
+              <div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;" id="term-pin-dots">
+                <div id="tpd0" style="width:14px;height:14px;border-radius:50%;border:2px solid var(--sd-indigo);transition:background .15s;"></div>
+                <div id="tpd1" style="width:14px;height:14px;border-radius:50%;border:2px solid var(--sd-indigo);transition:background .15s;"></div>
+                <div id="tpd2" style="width:14px;height:14px;border-radius:50%;border:2px solid var(--sd-indigo);transition:background .15s;"></div>
+                <div id="tpd3" style="width:14px;height:14px;border-radius:50%;border:2px solid var(--sd-indigo);transition:background .15s;"></div>
+              </div>
+              <div id="term-pin-error" style="color:#ef4444;font-size:12px;font-weight:700;margin-bottom:8px;min-height:18px;opacity:0;transition:opacity .2s;">Incorrect PIN. Try again.</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+                <button onclick="termPinInput('1')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">1</button>
+                <button onclick="termPinInput('2')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">2</button>
+                <button onclick="termPinInput('3')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">3</button>
+                <button onclick="termPinInput('4')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">4</button>
+                <button onclick="termPinInput('5')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">5</button>
+                <button onclick="termPinInput('6')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">6</button>
+                <button onclick="termPinInput('7')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">7</button>
+                <button onclick="termPinInput('8')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">8</button>
+                <button onclick="termPinInput('9')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">9</button>
+                <button onclick="termPinClear()" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:13px;font-weight:700;cursor:pointer;color:#ef4444;">CLR</button>
+                <button onclick="termPinInput('0')" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:18px;font-weight:800;cursor:pointer;color:var(--sd-ink);">0</button>
+                <button onclick="termPinBackspace()" style="padding:12px;border-radius:10px;border:1px solid var(--sd-ivory2);background:var(--sd-ivory);font-size:15px;cursor:pointer;color:var(--sd-ink);">⌫</button>
+              </div>
+              <button onclick="closeTermPinModal()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--sd-ivory2);background:transparent;font-size:13px;font-weight:700;cursor:pointer;color:var(--sd-ink3);">Cancel</button>
+            </div>
           </div>
 
           <!-- Helpful info card -->
@@ -3111,8 +3222,8 @@ const SCHOOL_CONFIG = {
   name:             "Pariya Academy For Modern Science and Quran",
   motto:            "Do not be sad",
   address:          "Near PHCC Pariya & Pariya Main Football Field",
-  primaryWebsite:   "https://pariyaacademy-primary-portal.netlify.app",
-  secondaryWebsite: "https://pariyaacademy-secondary-portal.netlify.app",
+  primaryWebsite:   "https://mypariyaacademy.netlify.app",
+  secondaryWebsite: "https://mypariyaacademy.netlify.app",
 
   // ── Logo images (use PostImage direct links) ──
   schoolLogo:  "https://i.postimg.cc/VvMcYqbb/LOGO.png",
@@ -3266,8 +3377,8 @@ const WEBSITES_CSV_URL = ""; // Optional: paste CSV link here to load from sheet
 const SCHOOL_WEBSITES = [
   // Add website entries here if not using a CSV:
   // { function: "School Portal", url: "https://example.com", username: "admin", password: "pass123" },
-  { function: "Primary Student Portal", url: "https://pariyaacademy-primary-portal.netlify.app", username: "admin", password: "admin2026" },
-  { function: "Secondary Student Portal", url: "https://pariyaacademy-secondary-portal.netlify.app", username: "admin", password: "admin2026" },
+  { function: "Primary Student Portal", url: "https://mypariyaacademy.netlify.app", username: "admin", password: "admin2026" },
+  { function: "Secondary Student Portal", url: "https://mypariyaacademy.netlify.app", username: "admin", password: "admin2026" },
 ];
 /* END CUSTOM EDIT SECTION — School Websites Config */
 
@@ -4840,7 +4951,7 @@ async function loadAllClassProgress() {
       const block = document.createElement('div');
       block.style.marginBottom = '16px';
       block.innerHTML = `
-        <div class="section-heading" style="font-size:13px;color:var(--dash-text);">${className}</div>
+        <div style="font-size:13px;font-weight:800;color:var(--ad-ink);margin-bottom:8px;padding:6px 10px;background:var(--ad-indigo-lt);border-left:3px solid var(--ad-indigo);border-radius:4px;letter-spacing:.02em;">📋 ${className}</div>
         <div class="progress-tracker-grid">
           ${progressCardHtml('CA Progress', stats.caFilled, stats.caTotal)}
           ${progressCardHtml('Exam Progress', stats.examFilled, stats.examTotal)}
@@ -5560,8 +5671,14 @@ function checkPin() {
     closePinModal();
     if (pinTarget === 'teachers') {
       switchTab('tab-teachers');
-      showTeachersSectionPicker();
+      // Show the new master panel instead of section picker
+      const masterPanel = document.getElementById('teachers-master-panel');
+      if (masterPanel) masterPanel.style.display = '';
+      document.getElementById('teachers-section-picker').style.display = 'none';
+      document.getElementById('teachers-list-view').style.display = 'none';
+      document.getElementById('teachers-profile-view').style.display = 'none';
       if (teachersData.length === 0) loadAllTeachers();
+      else renderMasterTeacherTables();
     } else if (pinTarget === 'fees') {
       switchTab('tab-fees');
       showFeesSummaryView();
@@ -5682,12 +5799,168 @@ async function loadAllTeachers() {
       showToast('⚠️ Teachers sheet loaded but appears empty. Check column headers.', 'error');
     } else {
       showToast('✅ ' + teachersData.length + ' teacher records loaded.');
+      renderMasterTeacherTables();
     }
   } catch (e) {
     showToast('⚠️ Could not load teachers data. Check the CSV URL or connection.', 'error');
     teachersData = [];
   } finally {
     loader.classList.remove('visible');
+  }
+}
+
+/* ── Render the master teacher tables (all sections with Month checkboxes) ── */
+function renderMasterTeacherTables() {
+  const SECTION_MAP = {
+    'nursery':          { tbodyId: 'tbody-nursery',  keys: ['Nursery','N','n'] },
+    'primary':          { tbodyId: 'tbody-primary',  keys: ['Primary','P','p'] },
+    'jss':              { tbodyId: 'tbody-jss',      keys: ['Junior Secondary','JSS','j','J'] },
+    'ss':               { tbodyId: 'tbody-ss',       keys: ['Senior Secondary','SS','s','S'] },
+  };
+
+  function getSection(t) {
+    const raw = getTeacherCategory(t).toLowerCase();
+    if (raw.includes('senior') || raw === 'ss' || raw === 's') return 'ss';
+    if (raw.includes('junior') || raw === 'jss' || raw === 'j') return 'jss';
+    if (raw.includes('primary') || raw === 'p') return 'primary';
+    if (raw.includes('nursery') || raw === 'n') return 'nursery';
+    return 'primary';
+  }
+
+  const grouped = { nursery:[], primary:[], jss:[], ss:[] };
+  teachersData.forEach(t => { grouped[getSection(t)].push(t); });
+
+  Object.entries(SECTION_MAP).forEach(([secKey, cfg]) => {
+    const tbody = document.getElementById(cfg.tbodyId);
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    const teachers = grouped[secKey];
+    if (!teachers.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--dash-muted);font-size:12px;padding:12px;">No teachers loaded for this section yet.</td></tr>';
+      return;
+    }
+    teachers.forEach((t, i) => {
+      const name = getTeacherName(t) || ('Teacher ' + (i+1));
+      const key = 'tch_' + secKey + '_' + i;
+      const saved = JSON.parse(localStorage.getItem(key) || '{}');
+      const chk = (m) => `<input type="checkbox" class="tch-month-check" ${saved[m]?'checked':''} onchange="saveTchCheck('${key}','${m}',this.checked,this.closest('td'))">`;
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td style="font-weight:700;text-align:center;">' + (i+1) + '</td>' +
+        '<td style="font-weight:800;color:var(--dash-text);">' + escapeHtml(name) + '</td>' +
+        '<td class="tch-check-cell' + (saved['m1']?' paid':'') + '">' + chk('m1') + '</td>' +
+        '<td class="tch-check-cell' + (saved['m2']?' paid':'') + '">' + chk('m2') + '</td>' +
+        '<td class="tch-check-cell' + (saved['m3']?' paid':'') + '">' + chk('m3') + '</td>';
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+function saveTchCheck(key, month, checked, tdEl) {
+  const saved = JSON.parse(localStorage.getItem(key) || '{}');
+  saved[month] = checked;
+  localStorage.setItem(key, JSON.stringify(saved));
+  if (tdEl) tdEl.className = 'tch-check-cell' + (checked ? ' paid' : '');
+}
+
+/* ── Download All Teachers Master PDF (with letterhead, checkboxes shown as ✅/☐) ── */
+async function downloadAllTeachersMasterPDF(filter) {
+  if (!teachersData || !teachersData.length) {
+    showToast('❌ No teachers data loaded. Teachers will auto-load when you open this tab.', 'error');
+    return;
+  }
+
+  const SECTION_ORDER = ['nursery','primary','jss','ss'];
+  const SECTION_LABELS = {
+    nursery: '🌱 Nursery Section',
+    primary: '📚 Primary Section',
+    jss:     '🔬 Junior Secondary Section',
+    ss:      '🎓 Senior Secondary Section',
+  };
+
+  function getSection(t) {
+    const raw = getTeacherCategory(t).toLowerCase();
+    if (raw.includes('senior') || raw === 'ss' || raw === 's') return 'ss';
+    if (raw.includes('junior') || raw === 'jss' || raw === 'j') return 'jss';
+    if (raw.includes('primary') || raw === 'p') return 'primary';
+    return 'nursery';
+  }
+
+  const grouped = { nursery:[], primary:[], jss:[], ss:[] };
+  teachersData.forEach(t => { grouped[getSection(t)].push(t); });
+
+  let sectionsToInclude = SECTION_ORDER;
+  let docTitle = 'All Teachers List';
+  let docSub   = 'All Sections';
+  if (filter === 'nursery-primary') {
+    sectionsToInclude = ['nursery','primary'];
+    docTitle = 'Primary & Nursery Teachers List';
+    docSub   = 'Nursery & Primary Sections';
+  } else if (filter === 'secondary') {
+    sectionsToInclude = ['jss','ss'];
+    docTitle = 'Secondary Teachers List';
+    docSub   = 'Junior & Senior Secondary Sections';
+  }
+
+  showToast('⏳ Generating PDF…');
+
+  let tableHtml = '';
+  let globalIdx = 0;
+
+  sectionsToInclude.forEach(secKey => {
+    const teachers = grouped[secKey];
+    if (!teachers.length) return;
+
+    tableHtml += `<div style="margin-bottom:4px;font-size:13px;font-weight:900;color:#228B2A;padding:6px 0 4px;">${SECTION_LABELS[secKey]}</div>`;
+    tableHtml += `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;">
+      <thead>
+        <tr style="background:#228B2A;color:#fff;">
+          <th style="padding:8px;border:1px solid #1f6b3b;text-align:left;font-size:11px;">#</th>
+          <th style="padding:8px;border:1px solid #1f6b3b;text-align:left;font-size:11px;">Teacher Name</th>
+          <th style="padding:8px;border:1px solid #1f6b3b;text-align:center;font-size:11px;">Month 1</th>
+          <th style="padding:8px;border:1px solid #1f6b3b;text-align:center;font-size:11px;">Month 2</th>
+          <th style="padding:8px;border:1px solid #1f6b3b;text-align:center;font-size:11px;">Month 3</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+    teachers.forEach((t, i) => {
+      const name = getTeacherName(t) || ('Teacher ' + (i+1));
+      const key  = 'tch_' + secKey + '_' + i;
+      const saved = JSON.parse(localStorage.getItem(key) || '{}');
+      const bg = (globalIdx % 2 === 0) ? '#fff' : '#f0fdf4';
+      const tick = (v) => v ? '<span style="color:#228B2A;font-size:14px;">✅</span>' : '<span style="color:#ccc;font-size:14px;">☐</span>';
+      tableHtml += `<tr style="background:${bg};">
+        <td style="padding:7px 8px;border:1px solid #C8E6C9;font-weight:700;">${i+1}</td>
+        <td style="padding:7px 8px;border:1px solid #C8E6C9;font-weight:800;color:#1f6b3b;">${escapeHtml(name)}</td>
+        <td style="padding:7px 8px;border:1px solid #C8E6C9;text-align:center;">${tick(saved['m1'])}</td>
+        <td style="padding:7px 8px;border:1px solid #C8E6C9;text-align:center;">${tick(saved['m2'])}</td>
+        <td style="padding:7px 8px;border:1px solid #C8E6C9;text-align:center;">${tick(saved['m3'])}</td>
+      </tr>`;
+      globalIdx++;
+    });
+
+    tableHtml += `</tbody><tfoot><tr style="background:#f0fdf4;">
+      <td colspan="5" style="padding:7px 8px;border:1px solid #C8E6C9;font-weight:900;color:#228B2A;text-align:right;">
+        Section Total: ${teachers.length} teacher(s)
+      </td></tr></tfoot></table>`;
+  });
+
+  const totalCount = sectionsToInclude.reduce((s, k) => s + (grouped[k]||[]).length, 0);
+  const html = buildLetterPdfHtml(
+    docTitle,
+    `${docSub} | Total: ${totalCount} teacher(s) | Session: ${SCHOOL_CONFIG.session} | Generated: ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}`,
+    tableHtml
+  );
+
+  try {
+    const el = mountLetterTemplate(html);
+    const filename = 'Pariya_Academy_Teachers_' + filter.replace(/-/g,'_') + '.pdf';
+    await html2pdf().set(letterPdfOptions(filename)).from(el).save();
+    showToast('✅ Teachers PDF downloaded!');
+  } catch(e) {
+    console.error(e);
+    showToast('❌ PDF export failed.', 'error');
   }
 }
 
@@ -7269,6 +7542,90 @@ window.generateBestStudentCertificates = generateBestStudentCertificates;
 window.generateCustomStudentCert       = generateCustomStudentCert;
 window.generateTeacherCert             = generateTeacherCert;
 window.downloadCertPDF                 = downloadCertPDF;
+
+/* ============================================================
+   TERM PIN LOCK SYSTEM — Student Dashboard
+   Pins: First Term = 4545 | Second Term = 8787 | Third Term = 9191
+   ============================================================ */
+const TERM_PINS = {
+  'First Term':  '4545',
+  'Second Term': '8787',
+  'Third Term':  '9191',
+};
+
+let _termPinTarget = '';
+let _termPinValue  = '';
+
+function requestTermPin(term) {
+  _termPinTarget = term;
+  _termPinValue  = '';
+  updateTermPinDots();
+  const overlay = document.getElementById('term-pin-overlay');
+  const title   = document.getElementById('term-pin-title');
+  const errEl   = document.getElementById('term-pin-error');
+  if (title) title.textContent = '🔒 ' + term;
+  if (errEl) errEl.style.opacity = '0';
+  if (overlay) { overlay.style.display = 'flex'; }
+}
+
+function closeTermPinModal() {
+  const overlay = document.getElementById('term-pin-overlay');
+  if (overlay) overlay.style.display = 'none';
+  _termPinValue = '';
+  updateTermPinDots();
+}
+
+function termPinInput(digit) {
+  if (_termPinValue.length >= 4) return;
+  _termPinValue += digit;
+  updateTermPinDots();
+  if (_termPinValue.length === 4) setTimeout(checkTermPin, 150);
+}
+
+function termPinBackspace() {
+  _termPinValue = _termPinValue.slice(0, -1);
+  updateTermPinDots();
+}
+
+function termPinClear() {
+  _termPinValue = '';
+  updateTermPinDots();
+}
+
+function updateTermPinDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('tpd' + i);
+    if (dot) {
+      dot.style.background = i < _termPinValue.length ? 'var(--sd-indigo)' : 'transparent';
+    }
+  }
+}
+
+function checkTermPin() {
+  const expected = TERM_PINS[_termPinTarget];
+  if (_termPinValue === expected) {
+    closeTermPinModal();
+    studentLoadTerm(_termPinTarget);
+  } else {
+    const errEl = document.getElementById('term-pin-error');
+    if (errEl) {
+      errEl.style.opacity = '0';
+      void errEl.offsetWidth;
+      errEl.style.opacity = '1';
+    }
+    _termPinValue = '';
+    updateTermPinDots();
+  }
+}
+
+window.requestTermPin    = requestTermPin;
+window.closeTermPinModal = closeTermPinModal;
+window.termPinInput      = termPinInput;
+window.termPinBackspace  = termPinBackspace;
+window.termPinClear      = termPinClear;
+window.renderMasterTeacherTables   = renderMasterTeacherTables;
+window.downloadAllTeachersMasterPDF = downloadAllTeachersMasterPDF;
+window.saveTchCheck                 = saveTchCheck;
 </script>
 </body>
 </html>
