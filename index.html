@@ -2067,6 +2067,66 @@ canvas.pa-chart {
 .cert-corner-ornament {
   position: absolute; font-size: 22px; opacity: 0.18;
 }
+
+/* ══════════════════════════════════════════════════════
+   CA TRACKER TAB — Custom Styles
+   ══════════════════════════════════════════════════════ */
+.cat-term-btn {
+  padding: 8px 18px; border-radius: var(--ad-r-sm);
+  border: 1.5px solid var(--ad-border); cursor: pointer;
+  font-weight: 700; font-size: 13px; background: var(--ad-surface);
+  color: var(--ad-ink3); transition: all .16s ease; font-family: var(--ad-font);
+}
+.cat-term-btn:hover { border-color: var(--ad-indigo); color: var(--ad-indigo); }
+.cat-term-btn.cat-active { background: var(--ad-indigo); color: #fff; border-color: var(--ad-indigo); box-shadow: 0 2px 8px rgba(79,70,229,.3); }
+.cat-stat-box {
+  background: var(--ad-surface); border: 1px solid var(--ad-border);
+  border-radius: var(--ad-r); padding: 14px 16px;
+  flex: 1; min-width: 160px; border-top: 4px solid var(--ad-emerald);
+  box-shadow: var(--ad-shadow-sm);
+}
+.cat-stat-box.cat-low { border-top-color: var(--ad-rose); }
+.cat-stat-label { font-size: 10px; color: var(--ad-ink3); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.cat-stat-value { font-size: 14px; font-weight: 800; color: var(--ad-ink); margin-top: 5px; }
+.cat-class-card {
+  background: var(--ad-surface); border: 1.5px solid var(--ad-border);
+  border-radius: var(--ad-r); padding: 16px; cursor: pointer;
+  transition: all .2s ease; border-left: 5px solid var(--ad-indigo);
+  box-shadow: var(--ad-shadow-sm);
+}
+.cat-class-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(79,70,229,.12); }
+.cat-school-tab {
+  padding: 7px 16px; border-radius: var(--ad-r-sm);
+  border: 1.5px solid var(--ad-border); cursor: pointer;
+  font-weight: 700; font-size: 12px; background: var(--ad-surface);
+  color: var(--ad-ink3); transition: all .16s ease; font-family: var(--ad-font);
+}
+.cat-school-tab:hover { border-color: var(--ad-indigo); color: var(--ad-indigo); }
+.cat-school-tab.active { background: var(--ad-indigo); color: #fff; border-color: var(--ad-indigo); }
+.cat-ca-term-tab {
+  padding: 6px 14px; border-radius: var(--ad-r-sm);
+  border: 1.5px solid var(--ad-border); cursor: pointer;
+  font-weight: 700; font-size: 12px; background: var(--ad-surface);
+  color: var(--ad-ink3); transition: all .16s ease; font-family: var(--ad-font);
+}
+.cat-ca-term-tab:hover { border-color: var(--ad-emerald); color: var(--ad-emerald); }
+.cat-ca-term-tab.active { background: var(--ad-emerald); color: #fff; border-color: var(--ad-emerald); }
+.ca2-class-card {
+  background: var(--ad-surface); border: 1.5px solid var(--ad-border);
+  border-radius: var(--ad-r); padding: 14px; cursor: pointer;
+  transition: all .18s ease;
+}
+.ca2-class-card:hover { border-color: var(--ad-indigo); box-shadow: 0 4px 14px rgba(79,70,229,.14); }
+.ca2-class-card.ca2-selected { border-color: var(--ad-indigo); background: var(--ad-indigo-lt); }
+.ca2-class-card h4 { margin: 0 0 5px; color: var(--ad-ink); font-size: 13px; font-weight: 700; }
+.ca2-class-card p  { margin: 0; font-size: 11px; color: var(--ad-ink3); font-weight: 600; }
+.cat-badge-done { display:inline-block; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:800; background:#d1fae5; color:#065f46; }
+.cat-badge-wait { display:inline-block; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:800; background:#fee2e2; color:#991b1b; }
+.cat-chip-green { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:800; background:#d1fae5; color:#065f46; }
+.cat-chip-red   { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:800; background:#fee2e2; color:#991b1b; }
+.cat-chip-blue  { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:800; background:#dbeafe; color:#1e40af; }
+/* ── CA Tracker loader visibility fix ── */
+#cat-loader.visible, #ca2-loader.visible { display: flex; }
 </style>
 </head>
 <body>
@@ -2274,6 +2334,9 @@ canvas.pa-chart {
         <button class="ad-sb-item" onclick="switchTab('tab-websites');setAdActive(this)">
           <i class="fa-solid fa-globe"></i> Websites
         </button>
+        <button class="ad-sb-item" onclick="switchTab('tab-ca-tracker');setAdActive(this)">
+          <i class="fa-solid fa-clipboard-check"></i> CA Tracker
+        </button>
         <button class="ad-sb-item" onclick="switchTab('tab-guide');setAdActive(this)">
           <i class="fa-solid fa-book-open"></i> Guide
         </button>
@@ -2383,6 +2446,9 @@ canvas.pa-chart {
           </button>
           <button class="ad-tab-btn" onclick="switchTab('tab-awards');setAdTab(this)">
             <i class="fa-solid fa-trophy"></i> Awards
+          </button>
+          <button class="ad-tab-btn" onclick="switchTab('tab-ca-tracker');setAdTab(this)">
+            <i class="fa-solid fa-clipboard-check"></i> CA Tracker
           </button>
           <button class="ad-tab-btn" onclick="switchTab('tab-guide');setAdTab(this)">
             <i class="fa-solid fa-book-open"></i> Guide
@@ -2716,6 +2782,145 @@ canvas.pa-chart {
             </div>
           </div>
         </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             CA TRACKER TAB — Management Dashboard (from index__20_.html)
+             ══════════════════════════════════════════════════════ -->
+        <div id="tab-ca-tracker" class="tab-panel">
+
+          <!-- ── SECTION 1: School-wide CA/Exam Sync Tracker ── -->
+          <div class="ad-card" style="margin-bottom:18px;">
+            <div class="ad-card-header">
+              <div class="ad-card-title">
+                <i class="fa-solid fa-rotate"></i> School-Wide CA &amp; Exam Sync Tracker
+              </div>
+              <div style="font-size:12px;color:var(--ad-ink3);">Term-by-term completion overview for all classes</div>
+            </div>
+            <div class="ad-card-body">
+
+              <!-- Term Selection -->
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;background:var(--ad-bg);padding:12px 14px;border-radius:var(--ad-r);border:1px solid var(--ad-border);">
+                <span style="font-weight:800;font-size:0.78rem;text-transform:uppercase;color:var(--ad-ink3);margin-right:4px;">📅 Select Term:</span>
+                <button id="cat-btn-first"  class="cat-term-btn" onclick="catSelectTerm('first')">📗 1st Term</button>
+                <button id="cat-btn-second" class="cat-term-btn" onclick="catSelectTerm('second')">📘 2nd Term</button>
+                <button id="cat-btn-third"  class="cat-term-btn" onclick="catSelectTerm('third')">📙 3rd Term</button>
+              </div>
+
+              <!-- Stats Summary -->
+              <div id="cat-stats-summary" style="display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap;"></div>
+
+              <!-- Sync Bar -->
+              <div style="background:var(--ad-surface);padding:12px 16px;border-radius:var(--ad-r);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--ad-border);flex-wrap:wrap;gap:10px;">
+                <span id="cat-sync-text" style="font-weight:700;font-size:13px;color:var(--ad-ink3);">Select a term then click Sync</span>
+                <button class="ad-card-action" onclick="catLoadAllData()"><i class="fa-solid fa-rotate"></i> Sync All Classes</button>
+              </div>
+
+              <!-- Loader -->
+              <div id="cat-loader" class="loading-bar"><div class="spinner"></div><span>📡 Synchronizing Sheets…</span></div>
+
+              <!-- Class Grid -->
+              <div id="cat-home-view" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;"></div>
+            </div>
+          </div>
+
+          <!-- Class Detail Overlay (inside tab) -->
+          <div id="cat-detail-view" style="display:none;">
+            <div class="ad-card">
+              <div class="ad-card-header">
+                <div class="ad-card-title">
+                  <button class="ad-card-action" style="font-size:12px;" onclick="catShowHome()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                  <span id="cat-class-title" style="margin-left:8px;color:var(--ad-ink);font-size:14px;font-weight:700;"></span>
+                </div>
+                <button class="ad-card-action" id="cat-copy-btn">📋 Copy Report</button>
+              </div>
+              <div class="ad-card-body" style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;min-width:600px;">
+                  <thead>
+                    <tr style="background:var(--ad-bg);">
+                      <th style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">S/N</th>
+                      <th style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);text-align:left;">Subject</th>
+                      <th style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">1st CA</th>
+                      <th style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">2nd CA</th>
+                      <th style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">3rd CA</th>
+                      <th style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">Exam</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cat-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── SECTION 2: CA & Exams Management Dashboard ── -->
+          <div class="ad-card" style="margin-top:4px;">
+            <div class="ad-card-header">
+              <div class="ad-card-title">
+                <i class="fa-solid fa-clipboard-list"></i> CA &amp; Exams Management
+              </div>
+              <div style="font-size:12px;color:var(--ad-ink3);">Per-class, per-term subject entry status</div>
+            </div>
+            <div class="ad-card-body">
+
+              <!-- School Section Tabs -->
+              <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+                <button class="cat-school-tab active" id="ca2-school-nursery-primary" onclick="ca2SwitchSchool('nursery-primary')">🌱📚 Nursery &amp; Primary</button>
+                <button class="cat-school-tab" id="ca2-school-secondary" onclick="ca2SwitchSchool('secondary')">🔬🎓 Secondary School</button>
+              </div>
+
+              <!-- Term Tabs -->
+              <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
+                <button class="cat-ca-term-tab active" id="ca2-term-first"  onclick="ca2SwitchTerm('first')">📗 1st Term</button>
+                <button class="cat-ca-term-tab"        id="ca2-term-second" onclick="ca2SwitchTerm('second')">📘 2nd Term</button>
+                <button class="cat-ca-term-tab"        id="ca2-term-third"  onclick="ca2SwitchTerm('third')">📙 3rd Term</button>
+              </div>
+
+              <!-- Class Cards Grid -->
+              <div id="ca2-class-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:16px;"></div>
+
+              <!-- Loading -->
+              <div id="ca2-loader" class="loading-bar"><div class="spinner"></div><span>Loading class data…</span></div>
+
+              <!-- Detail Panel -->
+              <div id="ca2-detail-panel" style="display:none;background:var(--ad-bg);border-radius:var(--ad-r);padding:18px;border:1px solid var(--ad-border);">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+                  <div>
+                    <div id="ca2-detail-title" style="font-size:14px;font-weight:800;color:var(--ad-ink);">—</div>
+                    <div id="ca2-detail-sub" style="font-size:11px;color:var(--ad-ink3);margin-top:3px;">—</div>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="ad-card-action" onclick="ca2CopyReport()">📋 Copy Pending Report</button>
+                    <button class="ad-card-action" style="background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3);" onclick="ca2CloseDetail()">✕ Close</button>
+                  </div>
+                </div>
+                <!-- Chips -->
+                <div id="ca2-summary-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;"></div>
+                <!-- Progress bar -->
+                <div style="background:var(--ad-border);border-radius:8px;height:10px;overflow:hidden;margin-bottom:18px;">
+                  <div id="ca2-progress-fill" style="height:100%;border-radius:8px;background:var(--ad-emerald);width:0%;transition:.5s;"></div>
+                </div>
+                <!-- Subject Table -->
+                <div style="overflow-x:auto;">
+                  <table style="width:100%;border-collapse:collapse;min-width:600px;">
+                    <thead>
+                      <tr style="background:var(--ad-bg);">
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">S/N</th>
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);text-align:left;">Subject</th>
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">1st CA</th>
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">2nd CA</th>
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">3rd CA</th>
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">Exam</th>
+                        <th style="padding:10px;border-bottom:1px solid var(--ad-border);font-size:11px;text-transform:uppercase;color:var(--ad-ink3);">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ca2-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- ═══ END CA TRACKER TAB ═══ -->
 
         <!-- ── SETTINGS TAB ── -->
         <div id="tab-settings" class="tab-panel">
@@ -7736,6 +7941,415 @@ window.termPinClear      = termPinClear;
 window.renderMasterTeacherTables   = renderMasterTeacherTables;
 window.downloadAllTeachersMasterPDF = downloadAllTeachersMasterPDF;
 window.saveTchCheck                 = saveTchCheck;
+
+/* ============================================================
+   CA TRACKER — Section 1: School-Wide Sync Tracker
+   Uses CLASS_LINKS from the main config (already defined above)
+   ============================================================ */
+let catMasterData  = {};
+let catActiveTerm  = 'first';
+const catTermLabel = t => t === 'first' ? '1st Term' : t === 'second' ? '2nd Term' : '3rd Term';
+
+function catSelectTerm(term) {
+  catActiveTerm = term;
+  document.querySelectorAll('.cat-term-btn').forEach(b => b.classList.remove('cat-active'));
+  const btn = document.getElementById('cat-btn-' + term);
+  if (btn) btn.classList.add('cat-active');
+  catMasterData = {};
+  const hv = document.getElementById('cat-home-view');
+  const ss = document.getElementById('cat-stats-summary');
+  if (hv) hv.innerHTML = '';
+  if (ss) ss.innerHTML = '';
+  const st = document.getElementById('cat-sync-text');
+  if (st) st.innerText = 'Term changed — click Sync to load';
+}
+
+async function catLoadAllData() {
+  const loader   = document.getElementById('cat-loader');
+  const homeView = document.getElementById('cat-home-view');
+  if (!loader || !homeView) return;
+  loader.classList.add('visible');
+  homeView.style.opacity = '0.3';
+  catMasterData = {};
+
+  for (const [name, terms] of Object.entries(CLASS_LINKS)) {
+    const url = terms[catActiveTerm];
+    if (!url || url.startsWith('YOUR_')) continue;
+    try {
+      const res     = await fetch(url + '&t=' + Date.now());
+      const csv     = await res.text();
+      const lines   = csv.split('\n').map(l => l.split(','));
+      const headers = lines[0];
+      const dataRows = lines.slice(1);
+      const subjects = {};
+      let total = 0, done = 0;
+      headers.forEach((header, idx) => {
+        const h = header.toUpperCase().trim();
+        let type = h.includes('CA1') ? 'CA1' : h.includes('CA2') ? 'CA2' : h.includes('CA3') ? 'CA3' : h.includes('EXAM') ? 'Exam' : '';
+        if (type) {
+          const sName = header.split('_')[0].trim();
+          if (!subjects[sName]) subjects[sName] = { CA1:null, CA2:null, CA3:null, Exam:null };
+          let filled = false;
+          for (let r = 0; r < dataRows.length; r++) {
+            const val = (dataRows[r][idx] || '').trim();
+            if (val && val !== '0' && val !== '-') { filled = true; break; }
+          }
+          subjects[sName][type] = filled;
+          total++; if (filled) done++;
+        }
+      });
+      catMasterData[name] = { total, done, subjects };
+    } catch(e) { console.error('CAT:', name, e); }
+  }
+
+  loader.classList.remove('visible');
+  homeView.style.opacity = '1';
+  const tl = catTermLabel(catActiveTerm);
+  const st = document.getElementById('cat-sync-text');
+  if (st) st.innerText = tl + ' — Last Sync: ' + new Date().toLocaleTimeString();
+  catRenderHome();
+}
+
+function catRenderHome() {
+  const view  = document.getElementById('cat-home-view');
+  const stats = document.getElementById('cat-stats-summary');
+  if (!view || !stats) return;
+  view.innerHTML = '';
+
+  const tl = catTermLabel(catActiveTerm);
+  let leadClass = { name:'N/A', pct:-1 };
+  let slowClass = { name:'N/A', pct:101 };
+  let totalClasses = 0, totalDone = 0, totalAll = 0;
+
+  const groups = {
+    '🌱 Nursery':          ['Nursery 1','Nursery 2'],
+    '📚 Primary':          ['Primary 1','Primary 2','Primary 3','Primary 4','Primary 5'],
+    '🔬 Junior Secondary': ['JSS 1','JSS 2','JSS 3'],
+    '🎓 Senior Secondary': ['SS 1','SS 2','SS 3']
+  };
+
+  for (const [groupName, classNames] of Object.entries(groups)) {
+    const gc = classNames.filter(n => catMasterData[n]);
+    if (!gc.length) continue;
+
+    const divider = document.createElement('div');
+    divider.style.cssText = 'grid-column:1/-1;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ad-ink3);padding:4px 0 6px;border-bottom:2px solid var(--ad-border);margin-top:10px;';
+    divider.innerHTML = groupName + ' — <span style="color:var(--ad-indigo);font-style:italic;text-transform:none;">' + tl + '</span>';
+    view.appendChild(divider);
+
+    for (const name of gc) {
+      const data = catMasterData[name];
+      const pct  = data.total > 0 ? Math.round((data.done / data.total) * 100) : 0;
+      if (pct > leadClass.pct) leadClass = { name, pct };
+      if (pct < slowClass.pct) slowClass = { name, pct };
+      totalClasses++; totalDone += data.done; totalAll += data.total;
+
+      const barColor = pct >= 80 ? 'var(--ad-emerald)' : pct >= 50 ? '#d97706' : 'var(--ad-rose)';
+      const card = document.createElement('div');
+      card.className = 'cat-class-card';
+      card.style.borderLeftColor = barColor;
+      card.onclick = () => catShowDetails(name);
+      card.innerHTML = `
+        <div style="font-size:13px;font-weight:800;color:var(--ad-ink);margin-bottom:8px;">${name}</div>
+        <div style="background:var(--ad-bg);border-radius:5px;height:7px;margin-bottom:8px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${barColor};border-radius:5px;transition:.4s;"></div>
+        </div>
+        <div style="font-size:12px;font-weight:700;display:flex;justify-content:space-between;">
+          <span style="color:${barColor}">${pct}% Done</span>
+          <span style="color:var(--ad-rose)">${100-pct}% Pending</span>
+        </div>
+        <div style="font-size:10px;color:var(--ad-ink3);margin-top:4px;">${data.done}/${data.total} columns filled</div>`;
+      view.appendChild(card);
+    }
+  }
+
+  const schoolPct = totalAll > 0 ? Math.round((totalDone / totalAll) * 100) : 0;
+  stats.innerHTML = `
+    <div class="cat-stat-box">
+      <div class="cat-stat-label">School-Wide Completion</div>
+      <div class="cat-stat-value">${schoolPct}% (${tl})</div>
+    </div>
+    <div class="cat-stat-box">
+      <div class="cat-stat-label">Leading Class</div>
+      <div class="cat-stat-value">${leadClass.name} (${leadClass.pct}%)</div>
+    </div>
+    <div class="cat-stat-box cat-low">
+      <div class="cat-stat-label">Needs Attention</div>
+      <div class="cat-stat-value">${slowClass.name} (${slowClass.pct}%)</div>
+    </div>
+    <div class="cat-stat-box">
+      <div class="cat-stat-label">Classes Loaded</div>
+      <div class="cat-stat-value">${totalClasses} classes</div>
+    </div>`;
+}
+
+function catShowDetails(name) {
+  document.getElementById('cat-home-view').style.display  = 'none';
+  document.getElementById('cat-stats-summary').style.display = 'none';
+  document.getElementById('cat-detail-view').style.display  = 'block';
+  document.getElementById('cat-class-title').innerText       = name;
+
+  const btn = document.getElementById('cat-copy-btn');
+  btn.onclick = () => catCopySingleClassReport(name);
+
+  const body = document.getElementById('cat-table-body');
+  body.innerHTML = '';
+  const subs = catMasterData[name].subjects;
+  let i = 1;
+  for (const s in subs) {
+    body.innerHTML += `
+      <tr>
+        <td style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-weight:700;color:var(--ad-ink3);">${i++}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid var(--ad-border);font-weight:700;color:var(--ad-ink);text-align:left;">${s}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid var(--ad-border);text-align:center;">${catBadge(subs[s].CA1)}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid var(--ad-border);text-align:center;">${catBadge(subs[s].CA2)}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid var(--ad-border);text-align:center;">${catBadge(subs[s].CA3)}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid var(--ad-border);text-align:center;">${catBadge(subs[s].Exam)}</td>
+      </tr>`;
+  }
+}
+
+function catBadge(v) {
+  if (v === null) return '—';
+  return v ? '<span class="cat-badge-done">DONE</span>' : '<span class="cat-badge-wait">WAIT</span>';
+}
+
+function catShowHome() {
+  document.getElementById('cat-detail-view').style.display    = 'none';
+  document.getElementById('cat-home-view').style.display      = 'grid';
+  document.getElementById('cat-stats-summary').style.display  = 'flex';
+}
+
+function catCopySingleClassReport(className) {
+  const data = catMasterData[className];
+  let msg = '*PARIYA ACADEMY - ' + className.toUpperCase() + ' PENDING REPORT*\n';
+  let pending = [];
+  for (const s in data.subjects) {
+    let m = [];
+    if (!data.subjects[s].CA1)  m.push('1st CA');
+    if (!data.subjects[s].CA2)  m.push('2nd CA');
+    if (!data.subjects[s].CA3)  m.push('3rd CA');
+    if (!data.subjects[s].Exam) m.push('Exam');
+    if (m.length > 0) pending.push(s + ': (' + m.join(', ') + ')');
+  }
+  msg += pending.length === 0
+    ? 'Excellent! All records are 100% complete.'
+    : 'The following records are still missing:\n\n- ' + pending.join('\n- ');
+  navigator.clipboard.writeText(msg).then(() => showToast('✅ ' + className + ' report copied!'));
+}
+
+/* ============================================================
+   CA TRACKER — Section 2: CA & Exams Management Dashboard
+   ============================================================ */
+const CA2_SCHOOL_GROUPS = {
+  'nursery-primary': ['Nursery 1','Nursery 2','Primary 1','Primary 2','Primary 3','Primary 4','Primary 5'],
+  'secondary':       ['JSS 1','JSS 2','JSS 3','SS 1','SS 2','SS 3']
+};
+
+let ca2ActiveTerm   = 'first';
+let ca2ActiveSchool = 'nursery-primary';
+let ca2CurrentClass = null;
+let ca2CurrentData  = null;
+const ca2TermLabel  = t => t === 'first' ? '1st Term' : t === 'second' ? '2nd Term' : '3rd Term';
+
+function ca2SwitchSchool(school) {
+  ca2ActiveSchool = school;
+  ca2CurrentClass = null;
+  document.querySelectorAll('.cat-school-tab').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('ca2-school-' + school);
+  if (btn) btn.classList.add('active');
+  const dp = document.getElementById('ca2-detail-panel');
+  if (dp) dp.style.display = 'none';
+  ca2RenderClassGrid();
+}
+
+function ca2SwitchTerm(term) {
+  ca2ActiveTerm = term;
+  ca2CurrentClass = null;
+  document.querySelectorAll('.cat-ca-term-tab').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('ca2-term-' + term);
+  if (btn) btn.classList.add('active');
+  const dp = document.getElementById('ca2-detail-panel');
+  if (dp) dp.style.display = 'none';
+  ca2RenderClassGrid();
+}
+
+function ca2RenderClassGrid() {
+  const grid    = document.getElementById('ca2-class-grid');
+  if (!grid) return;
+  const classes = CA2_SCHOOL_GROUPS[ca2ActiveSchool] || [];
+  grid.innerHTML = '';
+  classes.forEach(cls => {
+    let pctHtml = '<p>Click to load data</p>';
+    if (catMasterData[cls] && catActiveTerm === ca2ActiveTerm && catMasterData[cls].term === ca2ActiveTerm) {
+      const d = catMasterData[cls];
+      const pct = d.total > 0 ? Math.round((d.done / d.total) * 100) : 0;
+      const col = pct >= 80 ? 'var(--ad-emerald)' : pct >= 50 ? '#d97706' : 'var(--ad-rose)';
+      pctHtml = `<p style="color:${col};font-weight:800;">${pct}% complete</p>`;
+    }
+    const card = document.createElement('div');
+    card.className = 'ca2-class-card';
+    card.id = 'ca2-card-' + cls.replace(/\s/g,'-');
+    card.onclick = () => ca2OpenClass(cls);
+    card.innerHTML = `<h4>${cls}</h4>${pctHtml}`;
+    grid.appendChild(card);
+  });
+}
+
+async function ca2OpenClass(className) {
+  document.querySelectorAll('.ca2-class-card').forEach(c => c.classList.remove('ca2-selected'));
+  const cardEl = document.getElementById('ca2-card-' + className.replace(/\s/g,'-'));
+  if (cardEl) cardEl.classList.add('ca2-selected');
+
+  ca2CurrentClass = className;
+  const termLinks = CLASS_LINKS[className];
+  if (!termLinks) { showToast('⚠️ No links configured for ' + className, 'error'); return; }
+  const url = termLinks[ca2ActiveTerm];
+  if (!url || url.startsWith('YOUR_')) { showToast('⚠️ No link for ' + ca2TermLabel(ca2ActiveTerm) + ' — ' + className, 'error'); return; }
+
+  const loader = document.getElementById('ca2-loader');
+  const panel  = document.getElementById('ca2-detail-panel');
+  if (panel)  panel.style.display  = 'none';
+  if (loader) loader.classList.add('visible');
+
+  try {
+    const res      = await fetch(url + '&t=' + Date.now());
+    const csv      = await res.text();
+    const lines    = csv.split('\n').map(l => l.split(','));
+    const headers  = lines[0];
+    const dataRows = lines.slice(1);
+    const subjects = {};
+    let total = 0, done = 0;
+
+    headers.forEach((header, idx) => {
+      const h = header.toUpperCase().trim();
+      let type = h.includes('CA1') ? 'CA1' : h.includes('CA2') ? 'CA2' : h.includes('CA3') ? 'CA3' : h.includes('EXAM') ? 'Exam' : '';
+      if (type) {
+        const sName = header.split('_')[0].trim();
+        if (!subjects[sName]) subjects[sName] = { CA1:null, CA2:null, CA3:null, Exam:null };
+        let filled = false;
+        for (let r = 0; r < dataRows.length; r++) {
+          const val = (dataRows[r][idx] || '').trim();
+          if (val && val !== '0' && val !== '-') { filled = true; break; }
+        }
+        subjects[sName][type] = filled;
+        total++; if (filled) done++;
+      }
+    });
+
+    ca2CurrentData = { subjects, total, done, className, term: ca2ActiveTerm };
+    if (ca2ActiveTerm === catActiveTerm) {
+      catMasterData[className] = { total, done, subjects, term: ca2ActiveTerm };
+    }
+    ca2RenderDetail(ca2CurrentData);
+  } catch(err) {
+    console.error(err);
+    showToast('❌ Failed to load data for ' + className, 'error');
+  } finally {
+    if (loader) loader.classList.remove('visible');
+  }
+}
+
+function ca2RenderDetail({ subjects, total, done, className, term }) {
+  const pct     = total > 0 ? Math.round((done / total) * 100) : 0;
+  const pending = total - done;
+  const color   = pct >= 80 ? 'var(--ad-emerald)' : pct >= 50 ? '#d97706' : 'var(--ad-rose)';
+
+  document.getElementById('ca2-detail-title').textContent = className + ' — ' + ca2TermLabel(term);
+  document.getElementById('ca2-detail-sub').textContent   = 'Academic record status | ' + total + ' total columns tracked';
+  const fill = document.getElementById('ca2-progress-fill');
+  if (fill) { fill.style.width = pct + '%'; fill.style.background = color; }
+
+  document.getElementById('ca2-summary-chips').innerHTML = `
+    <span class="cat-chip-green">✅ ${done} Done</span>
+    <span class="cat-chip-red">⏳ ${pending} Pending</span>
+    <span class="cat-chip-blue">📊 ${pct}% Complete</span>`;
+
+  const tbody = document.getElementById('ca2-table-body');
+  tbody.innerHTML = '';
+  let i = 1;
+  for (const s in subjects) {
+    const sub      = subjects[s];
+    const allDone  = [sub.CA1, sub.CA2, sub.CA3, sub.Exam].every(v => v === true);
+    const noneDone = [sub.CA1, sub.CA2, sub.CA3, sub.Exam].every(v => v === false || v === null);
+    const rowBg    = allDone ? 'rgba(209,250,229,.3)' : noneDone ? 'rgba(254,226,226,.3)' : '';
+    tbody.innerHTML += `
+      <tr style="background:${rowBg};">
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);font-weight:700;color:var(--ad-ink3);">${i++}</td>
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);font-weight:700;color:var(--ad-ink);">${s}</td>
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);text-align:center;">${ca2Badge(sub.CA1)}</td>
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);text-align:center;">${ca2Badge(sub.CA2)}</td>
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);text-align:center;">${ca2Badge(sub.CA3)}</td>
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);text-align:center;">${ca2Badge(sub.Exam)}</td>
+        <td style="padding:10px;border-bottom:1px solid var(--ad-border);text-align:center;">
+          ${allDone  ? '<span class="cat-badge-done">COMPLETE</span>'
+            : noneDone ? '<span class="cat-badge-wait">NONE</span>'
+            : '<span style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:800;background:#fef3c7;color:#92400e;">PARTIAL</span>'}
+        </td>
+      </tr>`;
+  }
+
+  const panel = document.getElementById('ca2-detail-panel');
+  if (panel) {
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+}
+
+function ca2Badge(v) {
+  if (v === null) return '—';
+  return v ? '<span class="cat-badge-done">✓</span>' : '<span class="cat-badge-wait">✗</span>';
+}
+
+function ca2CloseDetail() {
+  const panel = document.getElementById('ca2-detail-panel');
+  if (panel) panel.style.display = 'none';
+  document.querySelectorAll('.ca2-class-card').forEach(c => c.classList.remove('ca2-selected'));
+  ca2CurrentClass = null;
+}
+
+function ca2CopyReport() {
+  if (!ca2CurrentData) return;
+  const { subjects, className, term } = ca2CurrentData;
+  let msg = '*PARIYA ACADEMY — ' + className.toUpperCase() + ' (' + ca2TermLabel(term).toUpperCase() + ') CA & EXAM REPORT*\n';
+  msg += 'Generated: ' + new Date().toLocaleString() + '\n\n';
+  let pending = [];
+  for (const s in subjects) {
+    let m = [];
+    if (!subjects[s].CA1)  m.push('1st CA');
+    if (!subjects[s].CA2)  m.push('2nd CA');
+    if (!subjects[s].CA3)  m.push('3rd CA');
+    if (!subjects[s].Exam) m.push('Exam');
+    if (m.length > 0) pending.push('• ' + s + ': ' + m.join(', '));
+  }
+  msg += pending.length === 0
+    ? '✅ Excellent! All CA and Exam records are 100% complete.'
+    : '⚠️ The following records are still PENDING (' + pending.length + ' subject(s)):\n\n' + pending.join('\n');
+  navigator.clipboard.writeText(msg)
+    .then(() => showToast('✅ ' + className + ' pending report copied!'))
+    .catch(() => prompt('Copy this report:', msg));
+}
+
+/* Expose CA Tracker functions globally */
+window.catSelectTerm    = catSelectTerm;
+window.catLoadAllData   = catLoadAllData;
+window.catShowHome      = catShowHome;
+window.ca2SwitchSchool  = ca2SwitchSchool;
+window.ca2SwitchTerm    = ca2SwitchTerm;
+window.ca2OpenClass     = ca2OpenClass;
+window.ca2CloseDetail   = ca2CloseDetail;
+window.ca2CopyReport    = ca2CopyReport;
+
+/* Initialise CA Tracker grids when admin dashboard loads */
+(function initCaTracker() {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set default active term button
+    const btn = document.getElementById('cat-btn-first');
+    if (btn) btn.classList.add('cat-active');
+    ca2RenderClassGrid();
+  });
+})();
+/* ── END CA TRACKER JS ── */
 </script>
 </body>
 </html>
