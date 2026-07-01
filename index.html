@@ -8748,12 +8748,33 @@ function ttClassMatches(csvClass, className) {
   return a === b || a.includes(b) || b.includes(a);
 }
 
+function ttGetTeacherClassList(t) {
+  // Different sheets label the "specific classes taught" column differently —
+  // accept whichever variant is actually present, in priority order.
+  const raw =
+    t['Classes'] || t['ClassType'] || t['Class Type'] ||
+    t['ClassesTaught'] || t['Classes Taught'] || t['AssignedClasses'] ||
+    t['Assigned Classes'] || t['Class'] || '';
+  return raw.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+function ttClassToCategory(className) {
+  const c = className.toLowerCase();
+  if (c.startsWith('jss'))     return 'Junior Secondary';
+  if (c.startsWith('ss'))      return 'Senior Secondary';
+  if (c.startsWith('primary')) return 'Primary';
+  if (c.startsWith('nursery')) return 'Nursery';
+  return '';
+}
+
 function ttGetClassSubjects(className) {
   const list = [];
   const seen = new Set();
   if (!teachersData || !teachersData.length) return list;
+
+  // Pass 1: match teachers using a specific per-class column (Classes / ClassType / etc.)
   teachersData.forEach(t => {
-    const classesRaw = (t['Classes'] || '').split(',').map(s => s.trim()).filter(Boolean);
+    const classesRaw = ttGetTeacherClassList(t);
     const belongs = classesRaw.some(c => ttClassMatches(c, className));
     if (!belongs) return;
     const tname = getTeacherName(t) || 'Unassigned';
@@ -8765,6 +8786,26 @@ function ttGetClassSubjects(className) {
       list.push({ subject: sub, teacher: tname });
     });
   });
+
+  // Pass 2 (fallback): sheet has no usable per-class column — group by broad
+  // ClassCategory/Section instead, so the module still works with a minimal sheet.
+  if (!list.length) {
+    const category = ttClassToCategory(className);
+    if (category) {
+      teachersData.forEach(t => {
+        if (!teacherBelongsToSection(t, category)) return;
+        const tname = getTeacherName(t) || 'Unassigned';
+        const subs = (t['Subjects'] || '').split(',').map(s => s.trim()).filter(Boolean);
+        subs.forEach(sub => {
+          const key = sub.toLowerCase();
+          if (seen.has(key)) return;
+          seen.add(key);
+          list.push({ subject: sub, teacher: tname });
+        });
+      });
+    }
+  }
+
   return list;
 }
 
@@ -8873,7 +8914,7 @@ async function ttGenerate() {
   const built = ttBuildSchedule(classNames, startDate, 5);
 
   if (!built.rows.length) {
-    showToast('❌ Could not generate — no subjects found for these classes. Check Teacher "Classes" & "Subjects" columns.', 'error');
+    showToast('❌ Could not generate — no matching teachers found. Check that "Subjects" is filled in, and that either a per-class column (Classes/ClassType) or "ClassCategory" correctly identifies ' + (ttState.section==='secondary' ? 'Junior/Senior Secondary' : 'Primary/Nursery') + ' teachers.', 'error');
     btn.disabled = false;
     return;
   }
